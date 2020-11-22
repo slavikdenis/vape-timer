@@ -320,7 +320,11 @@ export default function App() {
               >
                 Screen Wake Lock
               </span>
-              <Switch onChange={handleScreenLock} checked={isLocked} />
+              <Switch
+                onChange={handleScreenLock}
+                checked={isLocked}
+                onColor="#26af76"
+              />
             </label>
           </div>
         )}
