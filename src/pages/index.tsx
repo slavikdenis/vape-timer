@@ -28,6 +28,9 @@ import { useScreenWakeLock, useVibrate } from '../utils/hooks';
 // svg
 const INIT_OFFSET = 440;
 
+// responsive
+const HEIGHT_BREAKING_POINT = 480;
+
 // colors
 const HEATING_COLOR = '#ec722c';
 const BLAZE_COLOR = '#00b370';
@@ -248,6 +251,12 @@ export default function App() {
                 left: 50%;
                 transform: translateX(-50%);
                 margin-top: 20px;
+
+                @media (max-height: ${HEIGHT_BREAKING_POINT}px) {
+                  margin: 0;
+                  top: 50%;
+                  transform: translate(-50%, -50%);
+                }
               `}
             >
               <div
@@ -289,6 +298,10 @@ export default function App() {
                   borderWidth={3}
                   css={css`
                     margin-left: 42px;
+
+                    @media (max-height: ${HEIGHT_BREAKING_POINT}px) {
+                      margin-left: 220px;
+                    }
                   `}
                 >
                   <ResetIcon width="26px" height="26px" />
