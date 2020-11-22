@@ -22,6 +22,7 @@ import {
   getWaveIndex,
   getWavePassedTime,
 } from '../utils/timer';
+import { useVibrate } from '../utils/hooks';
 
 // svg
 const INIT_OFFSET = 440;
@@ -51,6 +52,8 @@ const getPhase = (time: number): TimerPhase => {
 };
 
 export default function App() {
+  const { vibrate } = useVibrate();
+
   // State
   const [isRunning, setIsRunning] = useState(false);
   const [time, setTime] = useState(0);
@@ -108,6 +111,13 @@ export default function App() {
       clearTimer();
     };
   }, [clearTimer]);
+
+  useEffect(() => {
+    // Vibrate device, when phase changes to blaze
+    if (phase === 'BLAZE') {
+      vibrate();
+    }
+  }, [phase, vibrate]);
 
   useEffect(() => {
     console.log({
