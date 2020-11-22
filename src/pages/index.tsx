@@ -7,6 +7,7 @@ import React, {
   useState,
 } from 'react';
 import Head from 'next/head';
+import Switch from 'react-switch';
 
 import FireIcon from '../components/icons/FireIcon';
 import WindIcon from '../components/icons/WindIcon';
@@ -22,7 +23,7 @@ import {
   getWaveIndex,
   getWavePassedTime,
 } from '../utils/timer';
-import { useVibrate } from '../utils/hooks';
+import { useScreenWakeLock, useVibrate } from '../utils/hooks';
 
 // svg
 const INIT_OFFSET = 440;
@@ -53,10 +54,25 @@ const getPhase = (time: number): TimerPhase => {
 
 export default function App() {
   const { vibrate } = useVibrate();
+  const {
+    isLocked,
+    isSupported: isScreenWakeSupported,
+    lock,
+    release,
+  } = useScreenWakeLock();
 
   // State
   const [isRunning, setIsRunning] = useState(false);
   const [time, setTime] = useState(0);
+
+  const handleScreenLock = useCallback(async (checked: boolean) => {
+    if (checked) {
+      await lock();
+    } else {
+      release();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // Interval timer
   const timer = useRef<NodeJS.Timeout | null>(null);
@@ -279,6 +295,33 @@ export default function App() {
                 </CircleButton>
               </div>
             </div>
+          </div>
+        )}
+
+        {isScreenWakeSupported && (
+          <div
+            css={css`
+              position: absolute;
+              bottom: 0;
+              margin-bottom: 16px;
+            `}
+          >
+            <label
+              css={css`
+                display: flex;
+                justify-content: center;
+                align-items: center;
+              `}
+            >
+              <span
+                css={css`
+                  padding-right: 10px;
+                `}
+              >
+                Screen Wake Lock
+              </span>
+              <Switch onChange={handleScreenLock} checked={isLocked} />
+            </label>
           </div>
         )}
       </div>
