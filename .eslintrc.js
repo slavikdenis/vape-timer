@@ -19,7 +19,7 @@ module.exports = {
     node: true,
     es6: true,
   },
-  plugins: ['@typescript-eslint', 'react', 'react-hooks', 'prettier'],
+  plugins: ['@typescript-eslint', 'react', 'react-hooks', '@emotion', 'prettier'],
   parserOptions: {
     project: './tsconfig.json',
     ecmaFeatures: {
@@ -48,5 +48,10 @@ module.exports = {
     'react-hooks/exhaustive-deps': 'warn',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     'no-nested-ternary': 'error',
+    // emotion
+    "@emotion/no-vanilla": "error",
+    "@emotion/import-from-emotion": "error",
+    "@emotion/styled-import": "error",
+    "@emotion/syntax-preference": [2, "string"]
   },
 };
