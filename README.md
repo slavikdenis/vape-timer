@@ -3,9 +3,9 @@
 # Roadmap 
 
 - [X] initialize with NextJS
-- [ ] add timer functions with START/PAUSE/RESET actions
+- [x] add timer functions with START/PAUSE/RESET actions
+- [x] add circle countdown timer
 - [ ] show data about session
-- [ ] add circle countdown timer
 - [ ] add Vibration API
 - [ ] add Screen Wake Lock API
 - [ ] add settings with options to configure timer and APIs used
