@@ -1,13 +1,11 @@
-import React from 'react';
-import 'normalize.css';
 import { AppProps } from 'next/app';
-import { GlobalStyles } from '../styling';
+import { ChakraProvider } from '@chakra-ui/react';
+import theme from '../styling/theme';
 
 const MyApp = ({ Component, pageProps }: AppProps) => (
-  <>
-    {GlobalStyles}
+  <ChakraProvider resetCSS theme={theme}>
     <Component {...pageProps} />
-  </>
+  </ChakraProvider>
 );
 
 export default MyApp;
