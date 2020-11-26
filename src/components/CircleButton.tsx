@@ -1,5 +1,6 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import { memo } from 'react';
 
 type CircleButtonProps = { size?: number; borderWidth?: number };
 
@@ -39,4 +40,4 @@ CircleButton.defaultProps = {
   borderWidth: 8,
 };
 
-export default CircleButton;
+export default memo(CircleButton);

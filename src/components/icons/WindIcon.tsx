@@ -1,3 +1,5 @@
+import { memo } from 'react';
+
 function WindIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
@@ -12,4 +14,4 @@ function WindIcon(props: React.SVGProps<SVGSVGElement>) {
   );
 }
 
-export default WindIcon;
+export default memo(WindIcon);

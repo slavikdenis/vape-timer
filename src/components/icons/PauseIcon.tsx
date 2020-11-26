@@ -1,3 +1,5 @@
+import { memo } from 'react';
+
 function PauseIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
@@ -19,4 +21,4 @@ function PauseIcon(props: React.SVGProps<SVGSVGElement>) {
   );
 }
 
-export default PauseIcon;
+export default memo(PauseIcon);

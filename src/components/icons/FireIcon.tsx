@@ -1,3 +1,5 @@
+import { memo } from 'react';
+
 function FireIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
@@ -12,4 +14,4 @@ function FireIcon(props: React.SVGProps<SVGSVGElement>) {
   );
 }
 
-export default FireIcon;
+export default memo(FireIcon);

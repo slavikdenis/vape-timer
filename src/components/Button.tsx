@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { ButtonHTMLAttributes } from 'react';
+import { ButtonHTMLAttributes, memo } from 'react';
 
 type ButtonVariant = 'default' | 'primary';
 
@@ -61,4 +61,4 @@ Button.defaultProps = {
   type: 'button',
 };
 
-export default Button;
+export default memo(Button);

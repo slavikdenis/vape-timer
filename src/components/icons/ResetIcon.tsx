@@ -1,3 +1,5 @@
+import { memo } from 'react';
+
 function ResetIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
@@ -21,4 +23,4 @@ function ResetIcon(props: React.SVGProps<SVGSVGElement>) {
   );
 }
 
-export default ResetIcon;
+export default memo(ResetIcon);

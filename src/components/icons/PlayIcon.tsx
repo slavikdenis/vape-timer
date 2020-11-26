@@ -1,3 +1,5 @@
+import { memo } from 'react';
+
 function PlayIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
@@ -18,4 +20,4 @@ function PlayIcon(props: React.SVGProps<SVGSVGElement>) {
   );
 }
 
-export default PlayIcon;
+export default memo(PlayIcon);
