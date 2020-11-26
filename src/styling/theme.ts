@@ -6,7 +6,7 @@ import {
 import { GlobalStyles } from '@chakra-ui/theme-tools';
 
 const config: ColorModeOptions = {
-  useSystemColorMode: false,
+  useSystemColorMode: true,
   initialColorMode: 'dark',
 };
 
