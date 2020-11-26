@@ -12,3 +12,5 @@
 - [ ] add tests
 - [ ] add gif to README of functions
 - [ ] ? add page with motivation/description
+- [ ] add animated background
+- [ ] add lazy loading of components
