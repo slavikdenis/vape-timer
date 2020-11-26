@@ -1,8 +1,13 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { memo } from 'react';
+import theme from '../styling/theme';
 
-type CircleButtonProps = { size?: number; borderWidth?: number };
+type CircleButtonProps = {
+  size?: number;
+  borderWidth?: number;
+  color?: string;
+};
 
 const CircleButton = styled.button<CircleButtonProps>`
   ${(p) => css`
@@ -11,10 +16,10 @@ const CircleButton = styled.button<CircleButtonProps>`
   `}
 
   border-radius: 50%;
-  color: #26af76;
+  color: ${(p) => p.color};
 
   ${(p) => css`
-    border: ${p.borderWidth}px solid #26af76;
+    border: ${p.borderWidth}px solid ${p.color};
   `}
 
   cursor: pointer;
@@ -38,6 +43,7 @@ CircleButton.defaultProps = {
   type: 'button',
   size: 148,
   borderWidth: 8,
+  color: theme.colors.green['500'],
 };
 
 export default memo(CircleButton);
