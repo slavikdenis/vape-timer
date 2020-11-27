@@ -8,9 +8,10 @@
 - [ ] show data about session
 - [x] add Vibration API
 - [x] add Screen Wake Lock API
-- [ ] add settings with options to configure timer and APIs used (time lengths, vibrate on/off, screen lock on/off)
+- [x] add settings with options to configure timer and APIs used (time lengths, vibrate on/off, screen lock on/off)
 - [ ] add tests
 - [ ] add gif to README of functions
 - [ ] ? add page with motivation/description
 - [ ] add animated background
-- [ ] add lazy loading of components
+- [x] add lazy loading of components
+- [ ] add analytics
