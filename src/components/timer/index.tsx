@@ -135,7 +135,7 @@ const Timer = () => {
       release();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isRunning, screenWakeLock]);
+  }, [isRunning, screenWakeLock, lock]);
 
   useEffect(() => {
     console.log({
