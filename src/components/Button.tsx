@@ -14,6 +14,16 @@ const primaryStyles = css`
   }
 `;
 
+const disabledStyles = css`
+  opacity: 0.5;
+  transition: none;
+
+  &:hover,
+  &:focus {
+    box-shadow: none;
+  }
+`;
+
 const StyledButton = styled.button<{ variant: ButtonVariant }>`
   display: flex;
   align-self: center;
@@ -45,6 +55,8 @@ const StyledButton = styled.button<{ variant: ButtonVariant }>`
   }
 
   ${(p) => p.variant === 'primary' && primaryStyles}
+
+  ${(p) => p.disabled && disabledStyles}
 `;
 
 const Button: React.FC<
