@@ -1,15 +1,16 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { ButtonHTMLAttributes, memo } from 'react';
+import theme from '../styling/theme';
 
 type ButtonVariant = 'default' | 'primary';
 
 const primaryStyles = css`
-  border-color: #26af76;
-  color: #26af76;
+  border-color: ${theme.colors.green['500']};
+  color: ${theme.colors.green['500']};
 
   &:hover {
-    box-shadow: 0 0 40px 40px #26af76 inset;
+    box-shadow: 0 0 40px 40px ${theme.colors.green['500']} inset;
   }
 `;
 
@@ -26,7 +27,6 @@ const StyledButton = styled.button<{ variant: ButtonVariant }>`
   cursor: pointer;
   font-size: 1rem;
   line-height: 1;
-  margin: 14px;
   padding: 1.2em 2.8em;
   text-decoration: none;
   text-align: center;
