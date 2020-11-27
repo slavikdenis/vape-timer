@@ -24,7 +24,14 @@ const disabledStyles = css`
   }
 `;
 
-const StyledButton = styled.button<{ variant: ButtonVariant }>`
+const minimalStyles = css`
+  padding: 1em 1.2em;
+`;
+
+const StyledButton = styled.button<{
+  variant: ButtonVariant;
+  minimal: boolean;
+}>`
   display: flex;
   align-self: center;
   justify-content: center;
@@ -44,6 +51,8 @@ const StyledButton = styled.button<{ variant: ButtonVariant }>`
   font-weight: 700;
   transition: box-shadow 300ms ease-in-out, color 300ms ease-in-out;
 
+  ${(p) => p.minimal && minimalStyles}
+
   &:hover,
   &:focus {
     color: #fff;
@@ -60,10 +69,13 @@ const StyledButton = styled.button<{ variant: ButtonVariant }>`
 `;
 
 const Button: React.FC<
-  { variant?: ButtonVariant } & ButtonHTMLAttributes<HTMLButtonElement>
-> = ({ variant = 'default', children, ...buttonProps }) => {
+  {
+    variant?: ButtonVariant;
+    minimal?: boolean;
+  } & ButtonHTMLAttributes<HTMLButtonElement>
+> = ({ variant = 'default', minimal = false, children, ...buttonProps }) => {
   return (
-    <StyledButton variant={variant} {...buttonProps}>
+    <StyledButton variant={variant} minimal={minimal} {...buttonProps}>
       {children}
     </StyledButton>
   );
