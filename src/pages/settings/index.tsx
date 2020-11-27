@@ -61,6 +61,26 @@ const SettingsPage = () => {
       </Head>
 
       <Container centerContent maxW="400px" py={6}>
+        <Flex
+          mb={6}
+          w="100%"
+          justifyContent="space-between"
+          flexDir={['column', 'row']}
+        >
+          <Box mb={[4, 0]} mx={['auto', 0]}>
+            <Button variant="primary" minimal onClick={() => push('/')}>
+              Back to Timer
+            </Button>
+          </Box>
+          <Button
+            minimal
+            onClick={setDefaultValues}
+            disabled={areSettingsDefault}
+          >
+            Load defaults
+          </Button>
+        </Flex>
+
         <Box w="100%" mb={4}>
           <FormLabel mb={4} as="h2" fontSize="xl">
             Timers
@@ -249,16 +269,6 @@ const SettingsPage = () => {
             </Flex>
           </FormControl>
         </Box>
-
-        <Flex mt={2} justifyContent="center">
-          <Button onClick={setDefaultValues} disabled={areSettingsDefault}>
-            Load defaults
-          </Button>
-        </Flex>
-
-        <Flex mt={2} justifyContent="center" onClick={() => push('/')}>
-          <Button variant="primary">Back to Timer</Button>
-        </Flex>
       </Container>
     </>
   );
