@@ -15,6 +15,7 @@ const primaryStyles = css`
 `;
 
 const disabledStyles = css`
+  cursor: not-allowed;
   opacity: 0.5;
   transition: none;
 
