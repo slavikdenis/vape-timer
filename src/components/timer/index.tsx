@@ -1,14 +1,7 @@
 import { css } from '@emotion/react';
-import {
-  // Fragment,
-  memo,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
-// import { useRouter } from 'next/router';
-import { Box, Flex, FormControl, FormLabel, Switch } from '@chakra-ui/react';
+import { memo, useCallback, useEffect, useRef, useState } from 'react';
+import { useRouter } from 'next/router';
+import { Box, Flex } from '@chakra-ui/react';
 
 import FireIcon from '../icons/FireIcon';
 import WindIcon from '../icons/WindIcon';
@@ -18,17 +11,20 @@ import CircleButton from '../CircleButton';
 import PlayIcon from '../icons/PlayIcon';
 import PauseIcon from '../icons/PauseIcon';
 import ResetIcon from '../icons/ResetIcon';
-import { TimerPhase } from '../../typings';
+import SettingsIcon from '../icons/SettingsIcon';
+// import QuestionIcon from '../icons/QuestionIcon';
+import CircleProgress from '../CircleProgress';
+
 import {
   getDurationFromSeconds,
   getWaveIndex,
-  getWavePassedTime,
+  getPhase,
+  getPhaseLeftTime,
+  roundNum,
 } from '../../utils/timer';
 import { useScreenWakeLock, useVibrate } from '../../utils/hooks';
-// import SettingsIcon from '../icons/SettingsIcon';
-// import QuestionIcon from '../icons/QuestionIcon';
-import CircleProgress from '../CircleProgress';
 import { useTheme } from '../../styling/theme';
+import { useSettingsContext } from '../../context/settings';
 
 // svg
 const TIMER_SIZE = 162;
@@ -40,67 +36,47 @@ const HEIGHT_BREAKING_POINT = 480;
 // timers
 const TIMER_REFRESH_RATE_MIL_SEC = 10;
 
-const HEATING_TIME_MIL_SEC = 30 * 1000;
-const BLAZE_TIME_MIL_SEC = 17 * 1000;
-const WAVE_TIME_MIL_SEC = HEATING_TIME_MIL_SEC + BLAZE_TIME_MIL_SEC;
-
-const getPhaseLeftTime = (time: number): number => {
-  const waveTimePassed = getWavePassedTime(time, WAVE_TIME_MIL_SEC);
-
-  return waveTimePassed <= HEATING_TIME_MIL_SEC
-    ? HEATING_TIME_MIL_SEC - waveTimePassed
-    : WAVE_TIME_MIL_SEC - waveTimePassed;
-};
-
-const getPhase = (time: number): TimerPhase => {
-  const waveTimePassed = getWavePassedTime(time, WAVE_TIME_MIL_SEC);
-  return waveTimePassed <= HEATING_TIME_MIL_SEC ? 'HEATING' : 'BLAZE';
-};
-
-const roundNum = (num: number) => {
-  const x = Math.pow(10, 2);
-  return Math.round(num * x) / x;
-};
-
 const Timer = () => {
   // Vibration API
   const { vibrate } = useVibrate();
 
   // Screen Wake Lock API
-  const {
-    isLocked,
-    isSupported: isScreenWakeSupported,
-    lock,
-    release,
-  } = useScreenWakeLock();
+  const { lock, release } = useScreenWakeLock();
 
   // Theme
   const { colors } = useTheme();
 
   // Router
-  // const { push } = useRouter();
+  const { push } = useRouter();
 
   // State
   const [isRunning, setIsRunning] = useState(false);
   const [time, setTime] = useState(0);
 
-  // Screen lock
-  const handleScreenLock = useCallback(async (checked: boolean) => {
-    if (checked) {
-      await lock();
-    } else {
-      release();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   // Interval timer
   const timer = useRef<NodeJS.Timeout | null>(null);
 
+  // Settings
+  const {
+    screenWakeLock,
+    vibrations,
+    blazeTime,
+    heatingTime,
+    waveTime,
+  } = useSettingsContext();
+
   // Constants
+  const WAVE_TIME_MIL_SEC = waveTime * 1000;
+  const HEATING_TIME_MIL_SEC = heatingTime * 1000;
+  const BLAZE_TIME_MIL_SEC = blazeTime * 1000;
+
   const didTimerStarted = time !== 0;
-  const phaseTime = getPhaseLeftTime(time);
-  const phase = getPhase(time);
+  const phaseTime = getPhaseLeftTime(
+    time,
+    WAVE_TIME_MIL_SEC,
+    HEATING_TIME_MIL_SEC,
+  );
+  const phase = getPhase(time, WAVE_TIME_MIL_SEC, HEATING_TIME_MIL_SEC);
   const total = getDurationFromSeconds(time / 1000);
   const wave = getWaveIndex(time, WAVE_TIME_MIL_SEC) + 1;
   const nextPhaseTime = getDurationFromSeconds(phaseTime / 1000);
@@ -141,10 +117,25 @@ const Timer = () => {
 
   useEffect(() => {
     // Vibrate device, when phase changes to blaze
-    if (phase === 'BLAZE') {
+    if (phase === 'BLAZE' && vibrations) {
       vibrate();
     }
-  }, [phase, vibrate]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [phase, vibrations]);
+
+  useEffect(() => {
+    // Lock screen, when timer is running
+    if (isRunning && screenWakeLock) {
+      lock();
+    } else {
+      release();
+    }
+
+    return () => {
+      release();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isRunning, screenWakeLock]);
 
   useEffect(() => {
     console.log({
@@ -233,7 +224,7 @@ const Timer = () => {
                   onClick={handlePause}
                   size={60}
                   borderWidth={3}
-                  color={colors.yellow['600']}
+                  color={colors.green['600']}
                 >
                   <PauseIcon width="28px" height="28px" />
                 </CircleButton>
@@ -243,7 +234,7 @@ const Timer = () => {
                   onClick={handleStart}
                   size={60}
                   borderWidth={3}
-                  color={colors.green['400']}
+                  color={colors.cyan['600']}
                 >
                   <PlayIcon
                     width="30px"
@@ -276,52 +267,29 @@ const Timer = () => {
         </Box>
       )}
 
-      {isScreenWakeSupported && (
-        <Box pos="absolute" bottom={0} mb="32px">
-          <FormControl
-            display="flex"
-            alignItems="center"
-            justifyContent="center"
-          >
-            <FormLabel htmlFor="screen-wake-lock" mb="0">
-              Screen Wake Lock
-            </FormLabel>
-            <Switch
-              id="screen-wake-lock"
-              onChange={(e) => handleScreenLock(e.target.checked)}
-              isChecked={isLocked}
-              colorScheme="teal"
-              size="md"
-            />
-          </FormControl>
-        </Box>
-      )}
+      {/* <Box pos="absolute" left="20px" bottom="20px">
+        <CircleButton
+          aria-label="About"
+          onClick={() => push('/about')}
+          size={54}
+          borderWidth={3}
+          color={colors.gray['500']}
+        >
+          <QuestionIcon width="34px" height="34px" />
+        </CircleButton>
+      </Box> */}
 
-      {/* <Fragment>
-        <Box pos="absolute" left="20px" bottom="20px">
-          <CircleButton
-            aria-label="About"
-            onClick={() => push('/about')}
-            size={60}
-            borderWidth={3}
-            color={colors.gray['500']}
-          >
-            <QuestionIcon width="34px" height="34px" />
-          </CircleButton>
-        </Box>
-
-        <Box pos="absolute" right="20px" bottom="20px">
-          <CircleButton
-            aria-label="Settings"
-            onClick={() => push('/settings')}
-            size={60}
-            borderWidth={3}
-            color={colors.gray['500']}
-          >
-            <SettingsIcon width="26px" height="26px" />
-          </CircleButton>
-        </Box>
-      </Fragment> */}
+      <Box pos="absolute" right="20px" bottom="20px">
+        <CircleButton
+          aria-label="Settings"
+          onClick={() => push('/settings')}
+          size={54}
+          borderWidth={3}
+          color={colors.gray['500']}
+        >
+          <SettingsIcon width="24px" height="24px" />
+        </CircleButton>
+      </Box>
     </Flex>
   );
 };
