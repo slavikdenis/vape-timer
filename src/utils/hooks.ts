@@ -7,7 +7,7 @@ export function useVibrate() {
   const [isSupported, setIsSupported] = useState(false);
 
   const vibrate = useCallback(
-    () => (isSupported ? navigator.vibrate(200) : noop),
+    () => (isSupported ? navigator.vibrate(300) : noop),
     [isSupported],
   );
 
