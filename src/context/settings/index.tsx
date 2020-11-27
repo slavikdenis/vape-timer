@@ -3,6 +3,7 @@ import {
   useCallback,
   useContext,
   useEffect,
+  useMemo,
   useState,
 } from 'react';
 import * as storage from '../../utils/storage';
@@ -22,14 +23,21 @@ type SettingsContextFunctions = {
   setDefaultValues: () => void;
 };
 
+type SettingsContextConstants = {
+  waveTime: number;
+  areSettingsDefault: boolean;
+};
+
 export const DEFAULT_HEATING_TIME = 30;
 export const DEFAULT_BLAZE_TIME = 15;
 
 const initialSettingsContext: SettingsContextState &
-  SettingsContextFunctions & { waveTime: number } = {
+  SettingsContextFunctions &
+  SettingsContextConstants = {
   heatingTime: DEFAULT_HEATING_TIME,
   blazeTime: DEFAULT_BLAZE_TIME,
   waveTime: DEFAULT_HEATING_TIME + DEFAULT_BLAZE_TIME,
+  areSettingsDefault: true,
   screenWakeLock: true,
   vibrations: true,
   // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -39,7 +47,7 @@ const initialSettingsContext: SettingsContextState &
 };
 
 const SettingsContext = createContext<
-  SettingsContextState & SettingsContextFunctions & { waveTime: number }
+  SettingsContextState & SettingsContextFunctions & SettingsContextConstants
 >(initialSettingsContext);
 
 export const useSettingsContext = () => useContext(SettingsContext);
@@ -49,6 +57,16 @@ export const SettingsProvider: React.FC = ({ children }) => {
   const [state, setState] = useState<SettingsContextState>(
     initialSettingsContext,
   );
+
+  // Check if settings are default
+  const areSettingsDefault = useMemo(() => {
+    return (
+      state.blazeTime === initialSettingsContext.blazeTime &&
+      state.heatingTime === initialSettingsContext.heatingTime &&
+      state.screenWakeLock === initialSettingsContext.screenWakeLock &&
+      state.vibrations === initialSettingsContext.vibrations
+    );
+  }, [state]);
 
   // Handlers
   const setSetting = useCallback(
@@ -95,6 +113,7 @@ export const SettingsProvider: React.FC = ({ children }) => {
       value={{
         ...state,
         waveTime: state.heatingTime + state.blazeTime,
+        areSettingsDefault,
         setSetting,
         setDefaultValues,
       }}
