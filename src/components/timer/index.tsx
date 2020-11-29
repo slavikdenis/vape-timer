@@ -1,7 +1,19 @@
 import { css } from '@emotion/react';
 import { memo, useCallback, useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
-import { Box, Flex } from '@chakra-ui/react';
+import {
+  Box,
+  Button,
+  Flex,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  useDisclosure,
+} from '@chakra-ui/react';
 
 import FireIcon from '../icons/FireIcon';
 import WindIcon from '../icons/WindIcon';
@@ -37,11 +49,13 @@ const HEIGHT_BREAKING_POINT = 480;
 const TIMER_REFRESH_RATE_MIL_SEC = 10;
 
 const Timer = () => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
   // Vibration API
   const { vibrate } = useVibrate();
 
   // Screen Wake Lock API
-  const { lock, release } = useScreenWakeLock();
+  const { lock, release, isLocked, isSupported } = useScreenWakeLock();
 
   // Theme
   const { colors } = useTheme();
@@ -135,7 +149,7 @@ const Timer = () => {
       release();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isRunning, screenWakeLock, lock]);
+  }, [isRunning, screenWakeLock]);
 
   useEffect(() => {
     console.log({
@@ -152,8 +166,56 @@ const Timer = () => {
       flexDir="column"
       alignItems="center"
       justifyContent="center"
-      height="100vh"
+      // height="100vh"
+      css={css`
+        height: 100vh;
+        // https://dev.to/peiche/100vh-behavior-on-chrome-2hm8
+        @supports (-webkit-appearance: none) {
+          .os-android & {
+            min-height: calc(100vh - 56px);
+          }
+        }
+      `}
     >
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Debug info</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            {JSON.stringify(
+              {
+                isLocked,
+                isSupported,
+                screenWakeLock,
+                vibrations,
+                isRunning,
+              },
+              null,
+              2,
+            )}
+          </ModalBody>
+
+          <ModalFooter>
+            <Button colorScheme="blue" mr={3} onClick={onClose}>
+              Close
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+
+      <Box pos="absolute" right="20px" top="20px">
+        <CircleButton
+          aria-label="Debug"
+          onClick={onOpen}
+          size={54}
+          borderWidth={3}
+          color={colors.gray['500']}
+        >
+          D
+        </CircleButton>
+      </Box>
+
       {!didTimerStarted ? (
         <CircleButton
           onClick={handleStart}
