@@ -31,7 +31,7 @@ export function useScreenWakeLock() {
   const [isSupported, setIsSupported] = useState(false);
 
   const lock = useCallback(async () => {
-    if (isSupported) {
+    if (!isSupported) {
       noop();
     } else {
       try {
@@ -53,7 +53,7 @@ export function useScreenWakeLock() {
   }, [isSupported]);
 
   const release = useCallback(() => {
-    if (isSupported) {
+    if (!isSupported) {
       noop();
     } else {
       // Releasing wave lock
