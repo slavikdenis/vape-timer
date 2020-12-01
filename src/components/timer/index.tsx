@@ -152,13 +152,9 @@ const Timer = () => {
       flexDir="column"
       alignItems="center"
       justifyContent="center"
-      // height="100vh"
       css={css`
         height: 100vh;
-        // https://dev.to/peiche/100vh-behavior-on-chrome-2hm8
-        @supports (-webkit-appearance: none) {
-          height: calc(100vh - 56px);
-        }
+        max-height: -webkit-fill-available;
       `}
     >
       {!didTimerStarted ? (
