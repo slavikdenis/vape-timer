@@ -12,6 +12,9 @@ const config: ColorModeOptions = {
 
 const styles: GlobalStyles = {
   global: {
+    body: {
+      height: '100%',
+    },
     svg: {
       display: 'inline-flex',
     },

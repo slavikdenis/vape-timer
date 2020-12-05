@@ -50,7 +50,7 @@ const SettingsDrawer = ({
           </DrawerBody>
 
           {!areSettingsDefault ? (
-            <DrawerFooter borderTopWidth="1px">
+            <DrawerFooter>
               <Button minimal fullWidth onClick={setDefaultValues}>
                 Load defaults
               </Button>

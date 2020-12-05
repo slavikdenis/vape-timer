@@ -114,6 +114,11 @@ const Timer = () => {
     setIsRunning(false);
   }, [clearTimer]);
 
+  const handleOpenSettings = useCallback(() => {
+    onOpen();
+    handleReset();
+  }, [handleReset, onOpen]);
+
   // Effects
   useEffect(() => {
     return () => {
@@ -293,7 +298,7 @@ const Timer = () => {
           <CircleButton
             ref={btnRef}
             aria-label="Settings"
-            onClick={onOpen}
+            onClick={handleOpenSettings}
             size={54}
             borderWidth={3}
             color={colors.gray['500']}
@@ -305,7 +310,10 @@ const Timer = () => {
 
       <SettingsDrawer
         isOpen={isOpen}
-        onClose={onClose}
+        onClose={() => {
+          handlePause();
+          onClose();
+        }}
         finalFocusRef={btnRef}
       />
     </>
