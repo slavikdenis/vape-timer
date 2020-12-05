@@ -32,6 +32,7 @@ const minimalStyles = css`
 const StyledButton = styled.button<{
   variant: ButtonVariant;
   minimal: boolean;
+  fullWidth: boolean;
 }>`
   display: flex;
   align-self: center;
@@ -54,6 +55,12 @@ const StyledButton = styled.button<{
 
   ${(p) => p.minimal && minimalStyles}
 
+  ${(p) =>
+    p.fullWidth &&
+    css`
+      width: 100%;
+    `}
+
   &:hover,
   &:focus {
     color: #fff;
@@ -73,10 +80,22 @@ const Button: React.FC<
   {
     variant?: ButtonVariant;
     minimal?: boolean;
+    fullWidth?: boolean;
   } & ButtonHTMLAttributes<HTMLButtonElement>
-> = ({ variant = 'default', minimal = false, children, ...buttonProps }) => {
+> = ({
+  variant = 'default',
+  minimal = false,
+  fullWidth = false,
+  children,
+  ...buttonProps
+}) => {
   return (
-    <StyledButton variant={variant} minimal={minimal} {...buttonProps}>
+    <StyledButton
+      variant={variant}
+      minimal={minimal}
+      fullWidth={fullWidth}
+      {...buttonProps}
+    >
       {children}
     </StyledButton>
   );
