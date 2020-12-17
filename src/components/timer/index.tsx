@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 import { memo, useCallback, useEffect, useRef, useState } from 'react';
-import { Box, Flex, useDisclosure } from '@chakra-ui/react';
+import { Box, ScaleFade, Flex, useDisclosure, Text } from '@chakra-ui/react';
 import dynamic from 'next/dynamic';
 
 import FireIcon from '../icons/FireIcon';
@@ -47,9 +47,6 @@ const Timer = () => {
 
   // Theme
   const { colors } = useTheme();
-
-  // Router
-  // const { push } = useRouter();
 
   // State
   const [isRunning, setIsRunning] = useState(false);
@@ -170,114 +167,150 @@ const Timer = () => {
         `}
       >
         {!didTimerStarted ? (
-          <CircleButton
-            onClick={handleStart}
-            size={TIMER_SIZE - TIMER_STROKE_WIDTH}
-          >
-            <AnimatedPulse>
-              <PlayIcon
-                width="60px"
-                height="60px"
-                css={css`
-                  margin-left: 6px;
-                `}
-              />
-            </AnimatedPulse>
-          </CircleButton>
+          <ScaleFade in>
+            <CircleButton
+              onClick={handleStart}
+              size={TIMER_SIZE - TIMER_STROKE_WIDTH}
+            >
+              <AnimatedPulse>
+                <PlayIcon
+                  width="60px"
+                  height="60px"
+                  css={css`
+                    margin-left: 6px;
+                  `}
+                />
+              </AnimatedPulse>
+            </CircleButton>
+          </ScaleFade>
         ) : (
           <Box pos="relative">
-            {phase === 'HEATING' ? (
-              <CircleProgress
-                progress={roundNum((phaseTime / HEATING_TIME_MIL_SEC) * 100)}
-                size={TIMER_SIZE}
-                strokeWidth={TIMER_STROKE_WIDTH}
-                strokeColors={{
-                  active: colors.orange['500'],
-                  bg: colors.gray['500'],
-                }}
-              />
-            ) : (
-              <CircleProgress
-                progress={roundNum((phaseTime / BLAZE_TIME_MIL_SEC) * 100)}
-                size={TIMER_SIZE}
-                strokeWidth={TIMER_STROKE_WIDTH}
-                strokeColors={{
-                  active: colors.green['500'],
-                  bg: colors.gray['500'],
-                }}
-              />
-            )}
+            <ScaleFade in>
+              {phase === 'HEATING' ? (
+                <CircleProgress
+                  progress={roundNum((phaseTime / HEATING_TIME_MIL_SEC) * 100)}
+                  size={TIMER_SIZE}
+                  strokeWidth={TIMER_STROKE_WIDTH}
+                  strokeColors={{
+                    active: colors.orange['500'],
+                    bg: colors.gray['500'],
+                  }}
+                />
+              ) : (
+                <CircleProgress
+                  progress={roundNum((phaseTime / BLAZE_TIME_MIL_SEC) * 100)}
+                  size={TIMER_SIZE}
+                  strokeWidth={TIMER_STROKE_WIDTH}
+                  strokeColors={{
+                    active: colors.green['500'],
+                    bg: colors.gray['500'],
+                  }}
+                />
+              )}
 
-            <AbsoluteCenter>
-              <AnimatedPulse isPaused={!isRunning}>
-                {phase === 'HEATING' ? (
-                  <FireIcon height="60px" width="60px" />
-                ) : (
-                  <WindIcon height="60px" width="60px" />
-                )}
-              </AnimatedPulse>
-            </AbsoluteCenter>
+              <AbsoluteCenter>
+                <AnimatedPulse isPaused={!isRunning}>
+                  {phase === 'HEATING' ? (
+                    <FireIcon height="60px" width="60px" />
+                  ) : (
+                    <WindIcon height="60px" width="60px" />
+                  )}
+                </AnimatedPulse>
+              </AbsoluteCenter>
+            </ScaleFade>
+
+            <Box
+              width="100%"
+              textAlign="center"
+              position="absolute"
+              top="-50px"
+            >
+              <ScaleFade in>
+                <Text fontSize="12px" opacity={0.6}>
+                  total
+                </Text>
+                <Text fontSize="15px" fontFamily="monospace" fontWeight={600}>
+                  {total}
+                </Text>{' '}
+              </ScaleFade>
+            </Box>
+
+            <Box
+              width="100%"
+              textAlign="center"
+              position="absolute"
+              bottom="-50px"
+            >
+              <ScaleFade in>
+                <Text fontSize="15px" fontFamily="monospace" fontWeight={600}>
+                  {nextPhaseTime}
+                </Text>
+                <Text fontSize="12px" opacity={0.6}>
+                  next phase
+                </Text>
+              </ScaleFade>
+            </Box>
 
             <div
               css={css`
                 position: absolute;
                 left: 50%;
                 transform: translateX(-50%);
-                margin-top: 20px;
 
                 @media (max-height: ${HEIGHT_BREAKING_POINT}px) {
-                  margin: 0;
                   top: 50%;
                   transform: translate(-50%, -50%);
                 }
               `}
             >
-              <Flex>
-                {isRunning ? (
+              <ScaleFade in>
+                <Flex>
+                  {isRunning ? (
+                    <CircleButton
+                      aria-label="Pause"
+                      onClick={handlePause}
+                      size={60}
+                      borderWidth={3}
+                      color={colors.green['600']}
+                    >
+                      <PauseIcon width="28px" height="28px" />
+                    </CircleButton>
+                  ) : (
+                    <CircleButton
+                      aria-label="Resume"
+                      onClick={handleStart}
+                      size={60}
+                      borderWidth={3}
+                      color={colors.cyan['600']}
+                    >
+                      <PlayIcon
+                        width="30px"
+                        height="30px"
+                        css={css`
+                          margin-left: 3px;
+                        `}
+                      />
+                    </CircleButton>
+                  )}
+
                   <CircleButton
-                    aria-label="Pause"
-                    onClick={handlePause}
+                    aria-label="Reset"
+                    onClick={handleReset}
                     size={60}
                     borderWidth={3}
-                    color={colors.green['600']}
-                  >
-                    <PauseIcon width="28px" height="28px" />
-                  </CircleButton>
-                ) : (
-                  <CircleButton
-                    aria-label="Resume"
-                    onClick={handleStart}
-                    size={60}
-                    borderWidth={3}
-                    color={colors.cyan['600']}
-                  >
-                    <PlayIcon
-                      width="30px"
-                      height="30px"
-                      css={css`
-                        margin-left: 3px;
-                      `}
-                    />
-                  </CircleButton>
-                )}
+                    color={colors.red['400']}
+                    css={css`
+                      margin-left: 100px;
 
-                <CircleButton
-                  aria-label="Reset"
-                  onClick={handleReset}
-                  size={60}
-                  borderWidth={3}
-                  color={colors.red['400']}
-                  css={css`
-                    margin-left: 42px;
-
-                    @media (max-height: ${HEIGHT_BREAKING_POINT}px) {
-                      margin-left: 220px;
-                    }
-                  `}
-                >
-                  <ResetIcon width="26px" height="26px" />
-                </CircleButton>
-              </Flex>
+                      @media (max-height: ${HEIGHT_BREAKING_POINT}px) {
+                        margin-left: 220px;
+                      }
+                    `}
+                  >
+                    <ResetIcon width="26px" height="26px" />
+                  </CircleButton>
+                </Flex>
+              </ScaleFade>
             </div>
           </Box>
         )}
