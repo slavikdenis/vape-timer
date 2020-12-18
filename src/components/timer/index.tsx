@@ -17,7 +17,6 @@ import CircleProgress from '../CircleProgress';
 
 import {
   getDurationFromSeconds,
-  getWaveIndex,
   getPhase,
   getPhaseLeftTime,
   roundNum,
@@ -29,7 +28,7 @@ import { useSettingsContext } from '../../context/settings';
 const SettingsDrawer = dynamic(() => import('../settings'));
 
 // svg
-const TIMER_SIZE = 162;
+const TIMER_SIZE = 170;
 const TIMER_STROKE_WIDTH = 8;
 
 // responsive
@@ -77,7 +76,6 @@ const Timer = () => {
   );
   const phase = getPhase(time, WAVE_TIME_MIL_SEC, HEATING_TIME_MIL_SEC);
   const total = getDurationFromSeconds(time / 1000);
-  const wave = getWaveIndex(time, WAVE_TIME_MIL_SEC) + 1;
   const nextPhaseTime = getDurationFromSeconds(phaseTime / 1000);
 
   // Settings
@@ -144,16 +142,6 @@ const Timer = () => {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isRunning, screenWakeLock]);
-
-  useEffect(() => {
-    console.log({
-      phase,
-      total,
-      wave,
-      nextPhaseTime,
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [total]);
 
   return (
     <>
@@ -223,15 +211,16 @@ const Timer = () => {
               width="100%"
               textAlign="center"
               position="absolute"
-              top="-50px"
+              top="-60px"
+              fontSize="15px"
             >
               <ScaleFade in>
-                <Text fontSize="12px" opacity={0.6}>
+                <Text fontSize="1em" opacity={0.6}>
                   total
                 </Text>
-                <Text fontSize="15px" fontFamily="monospace" fontWeight={600}>
+                <Text fontSize="1.2em" fontFamily="monospace" fontWeight={600}>
                   {total}
-                </Text>{' '}
+                </Text>
               </ScaleFade>
             </Box>
 
@@ -239,14 +228,15 @@ const Timer = () => {
               width="100%"
               textAlign="center"
               position="absolute"
-              bottom="-50px"
+              bottom="-60px"
+              fontSize="15px"
             >
               <ScaleFade in>
-                <Text fontSize="15px" fontFamily="monospace" fontWeight={600}>
+                <Text fontSize="1.2em" fontFamily="monospace" fontWeight={600}>
                   {nextPhaseTime}
                 </Text>
-                <Text fontSize="12px" opacity={0.6}>
-                  next phase
+                <Text fontSize="1em" opacity={0.6} textTransform="lowercase">
+                  {phase} phase
                 </Text>
               </ScaleFade>
             </Box>
@@ -256,8 +246,10 @@ const Timer = () => {
                 position: absolute;
                 left: 50%;
                 transform: translateX(-50%);
+                margin-top: 10px;
 
                 @media (max-height: ${HEIGHT_BREAKING_POINT}px) {
+                  margin-top: 0;
                   top: 50%;
                   transform: translate(-50%, -50%);
                 }
@@ -300,7 +292,7 @@ const Timer = () => {
                     borderWidth={3}
                     color={colors.red['400']}
                     css={css`
-                      margin-left: 100px;
+                      margin-left: 140px;
 
                       @media (max-height: ${HEIGHT_BREAKING_POINT}px) {
                         margin-left: 220px;
