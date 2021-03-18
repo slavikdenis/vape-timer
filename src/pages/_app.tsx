@@ -1,12 +1,17 @@
 import { AppProps } from 'next/app';
 import { ChakraProvider } from '@chakra-ui/react';
-import theme from '../styling/theme';
+
 import { SettingsProvider } from '../context/settings';
+import { TimerProvider } from '../context/timer';
+
+import theme from '../styling/theme';
 
 const MyApp = ({ Component, pageProps }: AppProps) => (
   <ChakraProvider resetCSS theme={theme}>
     <SettingsProvider>
-      <Component {...pageProps} />
+      <TimerProvider>
+        <Component {...pageProps} />
+      </TimerProvider>
     </SettingsProvider>
   </ChakraProvider>
 );
