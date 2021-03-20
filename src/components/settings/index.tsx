@@ -25,7 +25,7 @@ const SettingsDrawer = ({
   finalFocusRef,
 }: SettingsDrawerProps) => {
   // Settings context
-  const { setDefaultValues, areSettingsDefault } = useSettingsContext();
+  const { setDefaultValues, areTimerSettingsDefault } = useSettingsContext();
 
   return (
     <Drawer
@@ -49,10 +49,10 @@ const SettingsDrawer = ({
             <Content />
           </DrawerBody>
 
-          {!areSettingsDefault ? (
+          {!areTimerSettingsDefault ? (
             <DrawerFooter>
               <Button minimal fullWidth onClick={setDefaultValues}>
-                Load defaults
+                Reset timers
               </Button>
             </DrawerFooter>
           ) : null}
