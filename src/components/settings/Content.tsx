@@ -18,8 +18,15 @@ import {
   PopoverCloseButton,
   PopoverHeader,
   PopoverBody,
+  AlertDialog,
+  AlertDialogOverlay,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogBody,
+  AlertDialogFooter,
+  Button,
 } from '@chakra-ui/react';
-import { memo } from 'react';
+import { memo, useCallback, useRef, useState } from 'react';
 
 import CircleButton from '../../components/CircleButton';
 import InfoIcon from '../../components/icons/InfoIcon';
@@ -27,16 +34,28 @@ import InfoIcon from '../../components/icons/InfoIcon';
 import {
   DEFAULT_BLAZE_TIME,
   DEFAULT_HEATING_TIME,
+  TimeSettingContextKeys,
   useSettingsContext,
 } from '../../context/settings';
+import { useTimerContext } from '../../context/timer';
 import { useScreenWakeLock, useVibrate } from '../../utils/hooks';
 
 const SettingsContent = () => {
+  // Alert dialog
+  const [isAlertShown, setAlertShown] = useState(false);
+  const showAlert = () => setAlertShown(true);
+  const hideAlert = () => setAlertShown(false);
+  const cancelRef = useRef(null);
+
   // Vibrations API
   const { isSupported: isVibSupported } = useVibrate();
 
   // Screen Wake Lock API
   const { isSupported: isSWLSupported } = useScreenWakeLock();
+
+  // Timer context
+  const { state, resetTimer } = useTimerContext();
+  const isTimerRunning = state === 'RUNNING';
 
   // Settings context
   const {
@@ -46,9 +65,58 @@ const SettingsContent = () => {
     screenWakeLock,
     vibrations,
   } = useSettingsContext();
+  const values = { blazeTime, heatingTime };
+
+  // Handlers
+  const handleTimerChange = useCallback(
+    (type: TimeSettingContextKeys, value: any) => {
+      const didValueChange = values[type] !== value;
+
+      if (didValueChange) {
+        if (isTimerRunning) {
+          showAlert();
+        } else {
+          setSetting(type, Number.isNaN(value) ? 5 : value);
+        }
+      }
+    },
+    [isTimerRunning, values],
+  );
+
+  const handleAlertConfirm = useCallback(() => {
+    resetTimer();
+    hideAlert();
+  }, []);
 
   return (
     <Box>
+      <AlertDialog
+        isOpen={isAlertShown}
+        leastDestructiveRef={cancelRef}
+        onClose={hideAlert}
+      >
+        <AlertDialogOverlay>
+          <AlertDialogContent>
+            <AlertDialogHeader fontSize="lg" fontWeight="bold">
+              Changing timers
+            </AlertDialogHeader>
+
+            <AlertDialogBody>
+              You cannot change timers while the timer is running.
+            </AlertDialogBody>
+
+            <AlertDialogFooter>
+              <Button ref={cancelRef} onClick={hideAlert}>
+                Cancel
+              </Button>
+              <Button colorScheme="red" onClick={handleAlertConfirm} ml={3}>
+                Stop the timer
+              </Button>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialogOverlay>
+      </AlertDialog>
+
       <Box w="100%" mb={4}>
         <FormLabel mt={2} mb={4} as="h3" fontSize="xl">
           Timers
@@ -90,7 +158,7 @@ const SettingsContent = () => {
               min={5}
               max={90}
               onChange={(_s, number) =>
-                setSetting('heatingTime', Number.isNaN(number) ? 5 : number)
+                handleTimerChange('heatingTime', number)
               }
               width="85px"
             >
@@ -139,9 +207,7 @@ const SettingsContent = () => {
               value={blazeTime}
               min={4}
               max={90}
-              onChange={(_s, number) =>
-                setSetting('blazeTime', Number.isNaN(number) ? 5 : number)
-              }
+              onChange={(_s, number) => handleTimerChange('blazeTime', number)}
               width="85px"
             >
               <NumberInputField />

@@ -1,5 +1,5 @@
 import { css } from '@emotion/react';
-import { memo, useCallback, useEffect, useRef } from 'react';
+import { memo, useEffect, useRef } from 'react';
 import { Box, ScaleFade, Flex, useDisclosure, Text } from '@chakra-ui/react';
 import dynamic from 'next/dynamic';
 
@@ -63,12 +63,6 @@ const Timer = () => {
   // Settings
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = useRef<HTMLButtonElement | null>(null);
-
-  // Handlers
-  const handleOpenSettings = useCallback(() => {
-    onOpen();
-    resetTimer();
-  }, [resetTimer, onOpen]);
 
   // Effects
   useEffect(() => {
@@ -266,7 +260,7 @@ const Timer = () => {
           <CircleButton
             ref={btnRef}
             aria-label="Settings"
-            onClick={handleOpenSettings}
+            onClick={onOpen}
             size={54}
             borderWidth={3}
             color={colors.gray['500']}
@@ -278,10 +272,7 @@ const Timer = () => {
 
       <SettingsDrawer
         isOpen={isOpen}
-        onClose={() => {
-          pauseTimer();
-          onClose();
-        }}
+        onClose={onClose}
         finalFocusRef={btnRef}
       />
     </>
