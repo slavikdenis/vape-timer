@@ -2,7 +2,7 @@
 
 # Roadmap 
 
-- [X] initialize with NextJS
+- [x] initialize with NextJS
 - [x] add timer functions with START/PAUSE/RESET actions
 - [x] add circle countdown timer
 - [x] show data about session
