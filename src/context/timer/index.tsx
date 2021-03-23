@@ -91,12 +91,12 @@ export const TimerProvider: React.FC = ({ children }) => {
     clearTimer();
     setTime(0);
     setIsRunning(false);
-  }, [clearTimer]);
+  }, []);
 
   const pauseTimer = useCallback(() => {
     clearTimer();
     setIsRunning(false);
-  }, [clearTimer]);
+  }, []);
 
   // State
   let state: TimerContextState['state'] = 'INITIAL';
