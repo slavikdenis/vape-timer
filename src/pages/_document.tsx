@@ -21,23 +21,23 @@ export default class Document extends NextDocument {
           <link
             rel="apple-touch-icon"
             sizes="180x180"
-            href="/static/icons/apple-icon-180x180.png"
+            href="/icons/apple-icon-180x180.png"
           />
           <link
             rel="icon"
             type="image/png"
             sizes="32x32"
-            href="/static/icons/favicon-32x32.png"
+            href="/icons/favicon-32x32.png"
           />
           <link
             rel="icon"
             type="image/png"
             sizes="16x16"
-            href="/static/icons/favicon-16x16.png"
+            href="/icons/favicon-16x16.png"
           />
-          <link rel="manifest" href="/static/manifest.json" />
+          <link rel="manifest" href="/manifest.json" />
 
-          <link rel="shortcut icon" href="/static/icons/favicon-96x96.png" />
+          <link rel="shortcut icon" href="/icons/favicon-96x96.png" />
 
           <meta name="twitter:card" content="Timer for your vaping session" />
           <meta name="twitter:url" content="https://vape-timer.vercel.app" />
@@ -48,7 +48,7 @@ export default class Document extends NextDocument {
           />
           <meta
             name="twitter:image"
-            content="https://vape-timer.vercel.app/static/icons/android-chrome-192x192.png"
+            content="https://vape-timer.vercel.app/icons/android-chrome-192x192.png"
           />
           <meta name="twitter:creator" content="@toren_slavik" />
           <meta property="og:type" content="website" />
@@ -61,7 +61,7 @@ export default class Document extends NextDocument {
           <meta property="og:url" content="https://vape-timer.vercel.app" />
           <meta
             property="og:image"
-            content="https://vape-timer.vercel.app/static/icons/apple-icon-180x180.png"
+            content="https://vape-timer.vercel.app/icons/apple-icon-180x180.png"
           />
 
           <style>{`
