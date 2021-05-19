@@ -1,6 +1,6 @@
 # Vape Timer
 
-# Roadmap 
+# Roadmap
 
 - [x] initialize with NextJS
 - [x] make app as PWA

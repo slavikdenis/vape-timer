@@ -41,13 +41,8 @@ const SettingsContent = ({
   const { isSupported: isSWLSupported } = useScreenWakeLock();
 
   // Settings context
-  const {
-    setSetting,
-    blazeTime,
-    heatingTime,
-    screenWakeLock,
-    vibrations,
-  } = useSettingsContext();
+  const { setSetting, blazeTime, heatingTime, screenWakeLock, vibrations } =
+    useSettingsContext();
 
   const values = { blazeTime, heatingTime };
 
