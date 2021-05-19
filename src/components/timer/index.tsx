@@ -1,5 +1,5 @@
 import { css } from '@emotion/react';
-import { memo, useCallback, useEffect, useRef, useState } from 'react';
+import { memo, useEffect, useRef } from 'react';
 import { Box, ScaleFade, Flex, useDisclosure, Text } from '@chakra-ui/react';
 import dynamic from 'next/dynamic';
 
@@ -15,15 +15,12 @@ import SettingsIcon from '../icons/SettingsIcon';
 // import QuestionIcon from '../icons/QuestionIcon';
 import CircleProgress from '../CircleProgress';
 
-import {
-  getDurationFromSeconds,
-  getPhase,
-  getPhaseLeftTime,
-  roundNum,
-} from '../../utils/timer';
 import { useScreenWakeLock, useVibrate } from '../../utils/hooks';
-import { useTheme } from '../../styling/theme';
+
 import { useSettingsContext } from '../../context/settings';
+import { useTimerContext } from '../../context/timer';
+
+import { useTheme } from '../../styling/theme';
 
 const SettingsDrawer = dynamic(() => import('../settings'));
 
@@ -33,9 +30,6 @@ const TIMER_STROKE_WIDTH = 8;
 
 // responsive
 const HEIGHT_BREAKING_POINT = 480;
-
-// timers
-const TIMER_REFRESH_RATE_MIL_SEC = 10;
 
 const Timer = () => {
   // Vibration API
@@ -47,86 +41,35 @@ const Timer = () => {
   // Theme
   const { colors } = useTheme();
 
-  // State
-  const [isRunning, setIsRunning] = useState(false);
-  const [time, setTime] = useState(0);
-
-  // Interval timer
-  const timer = useRef<NodeJS.Timeout | null>(null);
-
   // Settings
+  const { screenWakeLock, vibrations } = useSettingsContext();
+
+  // Timer
   const {
-    screenWakeLock,
-    vibrations,
-    blazeTime,
-    heatingTime,
-    waveTime,
-  } = useSettingsContext();
+    state,
+    startTimer,
+    pauseTimer,
+    resetTimer,
+    phase,
+    total,
+    nextPhaseTime,
+    progress,
+  } = useTimerContext();
 
   // Constants
-  const WAVE_TIME_MIL_SEC = waveTime * 1000;
-  const HEATING_TIME_MIL_SEC = heatingTime * 1000;
-  const BLAZE_TIME_MIL_SEC = blazeTime * 1000;
-
-  const didTimerStarted = time !== 0;
-  const phaseTime = getPhaseLeftTime(
-    time,
-    WAVE_TIME_MIL_SEC,
-    HEATING_TIME_MIL_SEC,
-  );
-  const phase = getPhase(time, WAVE_TIME_MIL_SEC, HEATING_TIME_MIL_SEC);
-  const total = getDurationFromSeconds(time / 1000);
-  const nextPhaseTime = getDurationFromSeconds(phaseTime / 1000);
+  const didTimerStarted = state !== 'INITIAL';
+  const isRunning = state === 'RUNNING';
 
   // Settings
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = useRef<HTMLButtonElement | null>(null);
 
-  // Handlers
-  const clearTimer = useCallback(() => {
-    if (timer.current) {
-      clearInterval(timer.current);
-      timer.current = null;
-    }
-  }, []);
-
-  const handleStart = useCallback(() => {
-    timer.current = setInterval(
-      () => setTime((s) => s + TIMER_REFRESH_RATE_MIL_SEC),
-      TIMER_REFRESH_RATE_MIL_SEC,
-    );
-    setIsRunning(true);
-  }, []);
-
-  const handleReset = useCallback(() => {
-    clearTimer();
-    setTime(0);
-    setIsRunning(false);
-  }, [clearTimer]);
-
-  const handlePause = useCallback(() => {
-    clearTimer();
-    setIsRunning(false);
-  }, [clearTimer]);
-
-  const handleOpenSettings = useCallback(() => {
-    onOpen();
-    handleReset();
-  }, [handleReset, onOpen]);
-
   // Effects
-  useEffect(() => {
-    return () => {
-      clearTimer();
-    };
-  }, [clearTimer]);
-
   useEffect(() => {
     // Vibrate device, when phase changes to blaze
     if (phase === 'BLAZE' && vibrations) {
       vibrate();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [phase, vibrations]);
 
   useEffect(() => {
@@ -140,7 +83,6 @@ const Timer = () => {
     return () => {
       release();
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isRunning, screenWakeLock]);
 
   return (
@@ -157,7 +99,7 @@ const Timer = () => {
         {!didTimerStarted ? (
           <ScaleFade in>
             <CircleButton
-              onClick={handleStart}
+              onClick={startTimer}
               size={TIMER_SIZE - TIMER_STROKE_WIDTH}
             >
               <AnimatedPulse>
@@ -174,27 +116,22 @@ const Timer = () => {
         ) : (
           <Box pos="relative">
             <ScaleFade in>
-              {phase === 'HEATING' ? (
-                <CircleProgress
-                  progress={roundNum((phaseTime / HEATING_TIME_MIL_SEC) * 100)}
-                  size={TIMER_SIZE}
-                  strokeWidth={TIMER_STROKE_WIDTH}
-                  strokeColors={{
-                    active: colors.orange['500'],
-                    bg: colors.gray['500'],
-                  }}
-                />
-              ) : (
-                <CircleProgress
-                  progress={roundNum((phaseTime / BLAZE_TIME_MIL_SEC) * 100)}
-                  size={TIMER_SIZE}
-                  strokeWidth={TIMER_STROKE_WIDTH}
-                  strokeColors={{
-                    active: colors.green['500'],
-                    bg: colors.gray['500'],
-                  }}
-                />
-              )}
+              <CircleProgress
+                progress={progress[phase]}
+                size={TIMER_SIZE}
+                strokeWidth={TIMER_STROKE_WIDTH}
+                strokeColors={
+                  phase === 'HEATING'
+                    ? {
+                        active: colors.orange['500'],
+                        bg: colors.gray['500'],
+                      }
+                    : {
+                        active: colors.green['500'],
+                        bg: colors.gray['500'],
+                      }
+                }
+              />
 
               <AbsoluteCenter>
                 <AnimatedPulse isPaused={!isRunning}>
@@ -260,7 +197,7 @@ const Timer = () => {
                   {isRunning ? (
                     <CircleButton
                       aria-label="Pause"
-                      onClick={handlePause}
+                      onClick={pauseTimer}
                       size={60}
                       borderWidth={3}
                       color={colors.green['600']}
@@ -270,7 +207,7 @@ const Timer = () => {
                   ) : (
                     <CircleButton
                       aria-label="Resume"
-                      onClick={handleStart}
+                      onClick={startTimer}
                       size={60}
                       borderWidth={3}
                       color={colors.cyan['600']}
@@ -287,7 +224,7 @@ const Timer = () => {
 
                   <CircleButton
                     aria-label="Reset"
-                    onClick={handleReset}
+                    onClick={resetTimer}
                     size={60}
                     borderWidth={3}
                     color={colors.red['400']}
@@ -323,7 +260,7 @@ const Timer = () => {
           <CircleButton
             ref={btnRef}
             aria-label="Settings"
-            onClick={handleOpenSettings}
+            onClick={onOpen}
             size={54}
             borderWidth={3}
             color={colors.gray['500']}
@@ -335,10 +272,7 @@ const Timer = () => {
 
       <SettingsDrawer
         isOpen={isOpen}
-        onClose={() => {
-          handlePause();
-          onClose();
-        }}
+        onClose={onClose}
         finalFocusRef={btnRef}
       />
     </>

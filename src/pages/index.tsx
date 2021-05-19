@@ -1,10 +1,10 @@
 import dynamic from 'next/dynamic';
-import { useEffect } from 'react';
+import { memo, useEffect } from 'react';
 import { useColorMode } from '@chakra-ui/react';
 
 const DynamicTimer = dynamic(() => import('../components/timer'));
 
-export default function App() {
+function App() {
   const { colorMode, toggleColorMode } = useColorMode();
 
   // Force dark mode
@@ -17,3 +17,5 @@ export default function App() {
 
   return <DynamicTimer />;
 }
+
+export default memo(App);

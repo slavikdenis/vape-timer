@@ -15,6 +15,11 @@ type SettingsContextState = {
   vibrations: boolean;
 };
 
+export type TimeSettingContextKeys = keyof Pick<
+  SettingsContextState,
+  'blazeTime' | 'heatingTime'
+>;
+
 type SettingsContextFunctions = {
   setSetting: (
     key: keyof SettingsContextState,
@@ -25,7 +30,7 @@ type SettingsContextFunctions = {
 
 type SettingsContextConstants = {
   waveTime: number;
-  areSettingsDefault: boolean;
+  areTimerSettingsDefault: boolean;
 };
 
 export const DEFAULT_HEATING_TIME = 30;
@@ -37,7 +42,7 @@ const initialSettingsContext: SettingsContextState &
   heatingTime: DEFAULT_HEATING_TIME,
   blazeTime: DEFAULT_BLAZE_TIME,
   waveTime: DEFAULT_HEATING_TIME + DEFAULT_BLAZE_TIME,
-  areSettingsDefault: true,
+  areTimerSettingsDefault: true,
   screenWakeLock: true,
   vibrations: true,
   // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -59,12 +64,10 @@ export const SettingsProvider: React.FC = ({ children }) => {
   );
 
   // Check if settings are default
-  const areSettingsDefault = useMemo(() => {
+  const areTimerSettingsDefault = useMemo(() => {
     return (
       state.blazeTime === initialSettingsContext.blazeTime &&
-      state.heatingTime === initialSettingsContext.heatingTime &&
-      state.screenWakeLock === initialSettingsContext.screenWakeLock &&
-      state.vibrations === initialSettingsContext.vibrations
+      state.heatingTime === initialSettingsContext.heatingTime
     );
   }, [state]);
 
@@ -113,7 +116,7 @@ export const SettingsProvider: React.FC = ({ children }) => {
       value={{
         ...state,
         waveTime: state.heatingTime + state.blazeTime,
-        areSettingsDefault,
+        areTimerSettingsDefault,
         setSetting,
         setDefaultValues,
       }}

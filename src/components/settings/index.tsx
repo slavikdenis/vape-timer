@@ -11,8 +11,9 @@ import {
 import { css } from '@emotion/react';
 import { memo } from 'react';
 import { useSettingsContext } from '../../context/settings';
+import { useTimerContext } from '../../context/timer';
 import Button from '../Button';
-import Content from './Content';
+import Content from './SettingsContent';
 
 type SettingsDrawerProps = Pick<
   DrawerProps,
@@ -25,7 +26,11 @@ const SettingsDrawer = ({
   finalFocusRef,
 }: SettingsDrawerProps) => {
   // Settings context
-  const { setDefaultValues, areSettingsDefault } = useSettingsContext();
+  const { setDefaultValues, areTimerSettingsDefault } = useSettingsContext();
+
+  // Timer context
+  const { state, resetTimer } = useTimerContext();
+  const isTimerRunning = state === 'RUNNING';
 
   return (
     <Drawer
@@ -43,19 +48,20 @@ const SettingsDrawer = ({
               top: 18px;
             `}
           />
+
           <DrawerHeader borderBottomWidth="1px">Settings</DrawerHeader>
 
           <DrawerBody>
-            <Content />
+            <Content isTimerRunning={isTimerRunning} resetTimer={resetTimer} />
           </DrawerBody>
 
-          {!areSettingsDefault ? (
+          {!areTimerSettingsDefault && (
             <DrawerFooter>
               <Button minimal fullWidth onClick={setDefaultValues}>
-                Load defaults
+                Reset timers
               </Button>
             </DrawerFooter>
-          ) : null}
+          )}
         </DrawerContent>
       </DrawerOverlay>
     </Drawer>
