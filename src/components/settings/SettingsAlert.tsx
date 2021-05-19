@@ -35,10 +35,19 @@ const SettingsAlert = ({ isOpen, onConfirm, onClose }: SettingsAlertProps) => {
           </AlertDialogBody>
 
           <AlertDialogFooter>
-            <Button ref={cancelRef} onClick={onClose}>
+            <Button
+              ref={cancelRef}
+              onClick={onClose}
+              aria-label="Cancel the timer"
+            >
               Cancel
             </Button>
-            <Button colorScheme="red" onClick={onConfirm} ml={3}>
+            <Button
+              colorScheme="red"
+              onClick={onConfirm}
+              ml={3}
+              aria-label="Stop the timer"
+            >
               Stop the timer
             </Button>
           </AlertDialogFooter>

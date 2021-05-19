@@ -1,8 +1,9 @@
 # Vape Timer
 
-# Roadmap 
+# Roadmap
 
 - [x] initialize with NextJS
+- [x] make app as PWA
 - [x] add timer functions with START/PAUSE/RESET actions
 - [x] add circle countdown timer
 - [x] show data about session

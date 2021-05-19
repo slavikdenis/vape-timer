@@ -7,6 +7,7 @@
     "start": "next start",
     "type-check": "tsc",
     "lint": "eslint ./src --ext .js,.ts,.jsx,.tsx,.json --fix",
+    "prettier": "prettier ./src --write",
     "prepare": "husky install"
   },
   "dependencies": {
@@ -16,6 +17,7 @@
     "@emotion/styled": "^11.3.0",
     "framer-motion": "^4.1.17",
     "next": "10.2.1",
+    "next-pwa": "^5.2.21",
     "react": "^17.0.2",
     "react-dom": "^17.0.2"
   },

@@ -99,6 +99,7 @@ const Timer = () => {
         {!didTimerStarted ? (
           <ScaleFade in>
             <CircleButton
+              aria-label="Start timer"
               onClick={startTimer}
               size={TIMER_SIZE - TIMER_STROKE_WIDTH}
             >
@@ -196,7 +197,7 @@ const Timer = () => {
                 <Flex>
                   {isRunning ? (
                     <CircleButton
-                      aria-label="Pause"
+                      aria-label="Pause timer"
                       onClick={pauseTimer}
                       size={60}
                       borderWidth={3}
@@ -206,7 +207,7 @@ const Timer = () => {
                     </CircleButton>
                   ) : (
                     <CircleButton
-                      aria-label="Resume"
+                      aria-label="Resume timer"
                       onClick={startTimer}
                       size={60}
                       borderWidth={3}
@@ -223,7 +224,7 @@ const Timer = () => {
                   )}
 
                   <CircleButton
-                    aria-label="Reset"
+                    aria-label="Reset timer"
                     onClick={resetTimer}
                     size={60}
                     borderWidth={3}
@@ -259,7 +260,7 @@ const Timer = () => {
         <Box pos="absolute" right="20px" bottom="20px">
           <CircleButton
             ref={btnRef}
-            aria-label="Settings"
+            aria-label="Open settings"
             onClick={onOpen}
             size={54}
             borderWidth={3}
