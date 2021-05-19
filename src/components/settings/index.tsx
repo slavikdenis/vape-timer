@@ -42,6 +42,7 @@ const SettingsDrawer = ({
       <DrawerOverlay>
         <DrawerContent>
           <DrawerCloseButton
+            aria-label="Close settings"
             css={css`
               position: absolute;
               right: 24px;
@@ -57,7 +58,12 @@ const SettingsDrawer = ({
 
           {!areTimerSettingsDefault && (
             <DrawerFooter>
-              <Button minimal fullWidth onClick={setDefaultValues}>
+              <Button
+                minimal
+                fullWidth
+                onClick={setDefaultValues}
+                aria-label="Reset timers"
+              >
                 Reset timers
               </Button>
             </DrawerFooter>
