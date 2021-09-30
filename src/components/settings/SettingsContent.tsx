@@ -48,7 +48,7 @@ const SettingsContent = ({
 
   // Handlers
   const handleTimerChange = useCallback(
-    (type: TimeSettingContextKeys, value: any) => {
+    (type: TimeSettingContextKeys, value: number) => {
       const didValueChange = values[type] !== value;
 
       if (didValueChange) {
