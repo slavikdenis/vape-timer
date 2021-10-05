@@ -51,10 +51,9 @@ const initialTimerContext: TimerContextState &
   resetTimer: () => {},
 };
 
-const TimerContext =
-  createContext<
-    TimerContextState & TimerContextFunctions & TimerContextConstants
-  >(initialTimerContext);
+const TimerContext = createContext<
+  TimerContextState & TimerContextFunctions & TimerContextConstants
+>(initialTimerContext);
 
 export const useTimerContext = () => useContext(TimerContext);
 
