@@ -1,11 +1,13 @@
 module.exports = {
   parser: '@typescript-eslint/parser',
   extends: [
+    'next/core-web-vitals',
     'eslint:recommended',
     'plugin:@typescript-eslint/recommended',
     'plugin:prettier/recommended',
     'plugin:react/recommended',
     'prettier',
+    'plugin:@next/next/recommended',
   ],
   settings: {
     react: {
