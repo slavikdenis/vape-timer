@@ -71,6 +71,9 @@ export const TimerProvider: React.FC = ({ children }) => {
   // Interval timer
   const timer = useRef<NodeJS.Timeout | null>(null);
 
+  // Tab inactivity timer
+  const tabWentInactiveAt = useRef<number | null>(null);
+
   // Handlers
   const clearTimer = useCallback(() => {
     if (timer.current) {
@@ -79,11 +82,15 @@ export const TimerProvider: React.FC = ({ children }) => {
     }
   }, []);
 
-  const startTimer = useCallback(() => {
+  const startTimerInterval = useCallback(() => {
     timer.current = setInterval(
       () => setTime((s) => s + TIMER_REFRESH_RATE_MIL_SEC),
       TIMER_REFRESH_RATE_MIL_SEC,
     );
+  }, []);
+
+  const startTimer = useCallback(() => {
+    startTimerInterval();
     setIsRunning(true);
   }, []);
 
@@ -97,6 +104,43 @@ export const TimerProvider: React.FC = ({ children }) => {
     clearTimer();
     setIsRunning(false);
   }, []);
+
+  const visibilityChangeHandler = useCallback(() => {
+    if (isRunning) {
+      if (document.hidden) {
+        // tab is now inactive
+        // clear timers
+        clearTimer();
+        // set temp value
+        tabWentInactiveAt.current = Date.now();
+      } else {
+        // tab is active again
+        // add time while tab was inactive
+        const elapsedTime = Date.now() - (tabWentInactiveAt.current ?? 0);
+        setTime((s) => s + elapsedTime);
+        // restart timers
+        startTimerInterval();
+        // reset temp value
+        tabWentInactiveAt.current = null;
+      }
+    }
+  }, [isRunning]);
+
+  // Watch tab visibity
+  useEffect(() => {
+    document.addEventListener('visibilitychange', visibilityChangeHandler);
+
+    return () => {
+      document.removeEventListener('visibilitychange', visibilityChangeHandler);
+    };
+  }, [visibilityChangeHandler]);
+
+  // Clear timer on unmount
+  useEffect(() => {
+    return () => {
+      clearTimer();
+    };
+  }, [clearTimer]);
 
   // State
   let state: TimerContextState['state'] = 'INITIAL';
@@ -119,13 +163,6 @@ export const TimerProvider: React.FC = ({ children }) => {
     HEATING: roundNum((phaseTime / HEATING_TIME_MIL_SEC) * 100),
     BLAZE: roundNum((phaseTime / BLAZE_TIME_MIL_SEC) * 100),
   };
-
-  // Clear timer on unmount
-  useEffect(() => {
-    return () => {
-      clearTimer();
-    };
-  }, [clearTimer]);
 
   return (
     <TimerContext.Provider

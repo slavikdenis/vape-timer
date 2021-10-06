@@ -10,6 +10,7 @@
 - [x] add Vibration API
 - [x] add Screen Wake Lock API
 - [x] add settings with options to configure timer and APIs used (time lengths, vibrate on/off, screen lock on/off)
+- [x] add functionality to timers to be preserved running when tab is inactive
 - [ ] add tests
 - [ ] add gif to README of functions
 - [ ] ? add page with motivation/description
