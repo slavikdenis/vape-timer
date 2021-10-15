@@ -15,5 +15,11 @@
     "jsx": "preserve"
   },
   "include": ["next-env.d.ts", "emotion.d.ts", "**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules"]
+  "exclude": [
+    "node_modules",
+    "__mocks__",
+    "jest.config.js",
+    "jest.setup.js",
+    "next.config.js"
+  ]
 }
