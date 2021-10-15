@@ -20,22 +20,22 @@ export const getWavePassedTime = (time: number, waveTime: number): number =>
 export const getPhaseLeftTime = (
   time: number,
   waveTime: number,
-  heatimeTime: number,
+  heatTime: number,
 ): number => {
   const waveTimePassed = getWavePassedTime(time, waveTime);
 
-  return waveTimePassed <= heatimeTime
-    ? heatimeTime - waveTimePassed
+  return waveTimePassed <= heatTime
+    ? heatTime - waveTimePassed
     : waveTime - waveTimePassed;
 };
 
 export const getPhase = (
   time: number,
   waveTime: number,
-  heatimeTime: number,
+  heatTime: number,
 ): TimerPhase => {
   const waveTimePassed = getWavePassedTime(time, waveTime);
-  return waveTimePassed <= heatimeTime ? 'HEATING' : 'BLAZE';
+  return waveTimePassed <= heatTime ? 'HEATING' : 'BLAZE';
 };
 
 export const roundNum = (num: number) => {
