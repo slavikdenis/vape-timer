@@ -25,8 +25,7 @@ export function useVibrate() {
 }
 
 export function useScreenWakeLock() {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const wakeLock = useRef<any | null>(null);
+  const wakeLock = useRef<WakeLockSentinel | null>(null);
   const [isLocked, setIsLocked] = useState(false);
   const [isSupported, setIsSupported] = useState(false);
 
@@ -35,14 +34,13 @@ export function useScreenWakeLock() {
       noop();
     } else {
       try {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        wakeLock.current = await (navigator as any)['wakeLock'].request(
-          'screen',
-        );
+        wakeLock.current = await navigator.wakeLock.request('screen');
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
         wakeLock.current.onrelease = function () {
           setIsLocked(false);
         };
-        wakeLock.current.addEventListener('release', () => {
+        wakeLock.current?.addEventListener('release', () => {
           setIsLocked(false);
         });
       } catch (error) {

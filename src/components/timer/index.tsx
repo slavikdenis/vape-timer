@@ -70,6 +70,7 @@ const Timer = () => {
     if (phase === 'BLAZE' && vibrations) {
       vibrate();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [phase, vibrations]);
 
   useEffect(() => {
@@ -83,6 +84,7 @@ const Timer = () => {
     return () => {
       release();
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isRunning, screenWakeLock]);
 
   return (
