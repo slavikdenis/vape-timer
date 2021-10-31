@@ -59,12 +59,14 @@ const SettingsContent = ({
         }
       }
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [isTimerRunning, values],
   );
 
   const handleAlertConfirm = useCallback(() => {
     resetTimer();
     hideAlert();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
