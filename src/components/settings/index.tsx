@@ -52,7 +52,7 @@ const SettingsDrawer = ({
 
           <DrawerHeader borderBottomWidth="1px">Settings</DrawerHeader>
 
-          <DrawerBody>
+          <DrawerBody overflowX="hidden">
             <Content isTimerRunning={isTimerRunning} resetTimer={resetTimer} />
           </DrawerBody>
 

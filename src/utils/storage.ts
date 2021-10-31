@@ -24,7 +24,7 @@ function get<T>(
 ): T | string | null {
   const stringValue = localStorage.getItem(key);
 
-  const shouldParse = opts?.shouldParse ? opts.shouldParse : true;
+  const shouldParse = opts?.shouldParse ?? true;
 
   if (shouldParse) {
     return stringValue === null ? null : (JSON.parse(stringValue) as T);
