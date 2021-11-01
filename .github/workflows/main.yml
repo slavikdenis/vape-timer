@@ -24,7 +24,8 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
-
+      - name: Yarn cache
+        uses: c-hive/gha-yarn-cache@v2
       - name: Install modules
         run: yarn install
       - name: Run prettier
