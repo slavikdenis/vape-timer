@@ -101,6 +101,7 @@ const Timer = () => {
         {!didTimerStarted ? (
           <ScaleFade in>
             <CircleButton
+              data-testid="timer-start-button"
               aria-label="Start timer"
               onClick={startTimer}
               size={TIMER_SIZE - TIMER_STROKE_WIDTH}
@@ -139,15 +140,24 @@ const Timer = () => {
               <AbsoluteCenter>
                 <AnimatedPulse isPaused={!isRunning}>
                   {phase === 'HEATING' ? (
-                    <FireIcon height="60px" width="60px" />
+                    <FireIcon
+                      data-testid="heating-icon"
+                      height="60px"
+                      width="60px"
+                    />
                   ) : (
-                    <WindIcon height="60px" width="60px" />
+                    <WindIcon
+                      data-testid="blazing-icon"
+                      height="60px"
+                      width="60px"
+                    />
                   )}
                 </AnimatedPulse>
               </AbsoluteCenter>
             </ScaleFade>
 
             <Box
+              data-testid="total-timer"
               width="100%"
               textAlign="center"
               position="absolute"
@@ -199,6 +209,7 @@ const Timer = () => {
                 <Flex>
                   {isRunning ? (
                     <CircleButton
+                      data-testid="timer-pause-button"
                       aria-label="Pause timer"
                       onClick={pauseTimer}
                       size={60}
@@ -209,6 +220,7 @@ const Timer = () => {
                     </CircleButton>
                   ) : (
                     <CircleButton
+                      data-testid="timer-resume-button"
                       aria-label="Resume timer"
                       onClick={startTimer}
                       size={60}
@@ -226,6 +238,7 @@ const Timer = () => {
                   )}
 
                   <CircleButton
+                    data-testid="timer-reset-button"
                     aria-label="Reset timer"
                     onClick={resetTimer}
                     size={60}
