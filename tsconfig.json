@@ -18,6 +18,7 @@
   "include": ["next-env.d.ts", "emotion.d.ts", "**/*.ts", "**/*.tsx"],
   "exclude": [
     "node_modules",
+    "cypress",
     "__mocks__",
     "jest.config.js",
     "jest.setup.js",
