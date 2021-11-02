@@ -38,7 +38,7 @@ describe('utility hooks', () => {
     expect(navigator.wakeLock.request).toHaveBeenCalledWith('screen');
     expect(result.current.isLocked).toBe(true);
 
-    act(async () => {
+    act(() => {
       result.current.release();
     });
     expect(result.current.isLocked).toBe(false);
