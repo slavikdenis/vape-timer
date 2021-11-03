@@ -36,5 +36,5 @@ jobs:
         run: yarn lint
       - name: Run tests
         run: yarn test
-      - name: Cypress run
-        uses: cypress-io/github-action@v2
+      # - name: Cypress run
+      #   uses: cypress-io/github-action@v2
