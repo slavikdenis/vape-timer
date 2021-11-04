@@ -1,8 +1,7 @@
-import dynamic from 'next/dynamic';
 import { memo, useEffect } from 'react';
 import { useColorMode } from '@chakra-ui/react';
 
-const DynamicTimer = dynamic(() => import('../components/timer'));
+import Timer from '../components/timer';
 
 function App() {
   const { colorMode, toggleColorMode } = useColorMode();
@@ -15,7 +14,7 @@ function App() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [colorMode]);
 
-  return <DynamicTimer />;
+  return <Timer />;
 }
 
 export default memo(App);

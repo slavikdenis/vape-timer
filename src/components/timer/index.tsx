@@ -1,7 +1,6 @@
 import { css } from '@emotion/react';
 import { memo, useEffect, useRef } from 'react';
 import { Box, ScaleFade, Flex, useDisclosure, Text } from '@chakra-ui/react';
-import dynamic from 'next/dynamic';
 
 import FireIcon from '../icons/FireIcon';
 import WindIcon from '../icons/WindIcon';
@@ -22,7 +21,7 @@ import { useTimerContext } from '../../context/timer';
 
 import { useTheme } from '../../styling/theme';
 
-const SettingsDrawer = dynamic(() => import('../settings'));
+import SettingsDrawer from '../settings';
 
 // svg
 const TIMER_SIZE = 170;
