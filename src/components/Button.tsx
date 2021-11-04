@@ -34,7 +34,7 @@ const StyledButton = styled.button<{
   minimal: boolean;
   fullWidth: boolean;
 }>`
-  display: flex;
+  display: flex-inline;
   align-self: center;
   justify-content: center;
   align-items: center;
