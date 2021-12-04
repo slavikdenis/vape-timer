@@ -19,3 +19,4 @@
 - [ ] add animated background
 - [x] add lazy loading of components
 - [ ] add analytics
+- [ ] add auto stop function 
