@@ -1,6 +1,6 @@
-import { memo } from 'react';
+import { memo, SVGProps } from 'react';
 
-function PauseIcon(props: React.SVGProps<SVGSVGElement>) {
+function PauseIcon(props: SVGProps<SVGSVGElement>) {
   return (
     <svg
       viewBox="0 0 512 512"

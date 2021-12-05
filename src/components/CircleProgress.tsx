@@ -9,7 +9,7 @@ const ActiveCircle = styled.circle`
   transition: dash 0.1s linear;
 `;
 
-const CircleProgress: React.FC<{
+type CircleProgressProps = {
   progress: number; // 0 -100
   size: number;
   strokeWidth: number;
@@ -19,7 +19,14 @@ const CircleProgress: React.FC<{
     bg: string;
     bgOpacity?: number;
   };
-}> = ({ progress, size, strokeWidth, strokeColors }) => {
+};
+
+const CircleProgress = ({
+  progress,
+  size,
+  strokeWidth,
+  strokeColors,
+}: CircleProgressProps) => {
   // Calculations
   const { r, c, initStroke } = useMemo(() => {
     const radius = size / 2;

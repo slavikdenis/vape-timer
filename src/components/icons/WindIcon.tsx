@@ -1,6 +1,6 @@
-import { memo } from 'react';
+import { memo, SVGProps } from 'react';
 
-function WindIcon(props: React.SVGProps<SVGSVGElement>) {
+function WindIcon(props: SVGProps<SVGSVGElement>) {
   return (
     <svg
       viewBox="0 0 24 24"

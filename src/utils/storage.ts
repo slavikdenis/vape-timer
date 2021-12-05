@@ -1,6 +1,8 @@
 export type StorageKeys =
   | 'heatingTime'
   | 'blazeTime'
+  | 'autoStopTime'
+  | 'autoStopTimer'
   | 'screenWakeLock'
   | 'vibrations';
 

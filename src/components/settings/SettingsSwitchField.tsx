@@ -1,4 +1,4 @@
-import { memo } from 'react';
+import { memo, ReactNode } from 'react';
 import {
   Flex,
   FormControl,
@@ -21,14 +21,14 @@ type SettingsSwitchFieldProps = {
   title: string;
   isChecked: boolean;
   onChange: (value: boolean) => void;
-  popover: React.ReactNode;
+  PopoverComponent: ReactNode;
   disabled?: boolean;
 };
 
 const SettingsSwitchField = ({
   fieldId,
   title,
-  popover,
+  PopoverComponent,
   isChecked,
   onChange,
   disabled = false,
@@ -37,7 +37,7 @@ const SettingsSwitchField = ({
     <FormControl id={fieldId}>
       <Flex mb={4} alignItems="center" justifyContent="space-between">
         <Flex alignItems="center">
-          <Popover>
+          <Popover placement="right">
             <PopoverTrigger>
               <SettingsInfoIcon />
             </PopoverTrigger>
@@ -46,7 +46,7 @@ const SettingsSwitchField = ({
               <PopoverCloseButton />
               <PopoverHeader>{title}</PopoverHeader>
               <PopoverBody>
-                <FormHelperText>{popover}</FormHelperText>
+                <FormHelperText>{PopoverComponent}</FormHelperText>
               </PopoverBody>
             </PopoverContent>
           </Popover>

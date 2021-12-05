@@ -1,5 +1,6 @@
 import {
   createContext,
+  ReactNode,
   useCallback,
   useContext,
   useEffect,
@@ -31,6 +32,7 @@ type TimerContextFunctions = {
 type TimerContextConstants = {
   phase: TimerPhase;
   total: string;
+  totalInSeconds: number;
   nextPhaseTime: string;
   progress: Record<TimerPhase, number>;
 };
@@ -41,6 +43,7 @@ const initialTimerContext: TimerContextState &
   state: 'INITIAL',
   phase: 'HEATING',
   total: '?',
+  totalInSeconds: 0,
   nextPhaseTime: '?',
   progress: { BLAZE: 0, HEATING: 0 },
   // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -57,7 +60,7 @@ const TimerContext = createContext<
 
 export const useTimerContext = () => useContext(TimerContext);
 
-export const TimerProvider: React.FC = ({ children }) => {
+export const TimerProvider = ({ children }: { children: ReactNode }) => {
   // Settings
   const { blazeTime, heatingTime, waveTime } = useSettingsContext();
   const WAVE_TIME_MIL_SEC = waveTime * 1000;
@@ -157,7 +160,8 @@ export const TimerProvider: React.FC = ({ children }) => {
     HEATING_TIME_MIL_SEC,
   );
   const phase = getPhase(time, WAVE_TIME_MIL_SEC, HEATING_TIME_MIL_SEC);
-  const total = getDurationFromSeconds(time / 1000);
+  const totalInSeconds = time / 1000;
+  const total = getDurationFromSeconds(totalInSeconds);
   const nextPhaseTime = getDurationFromSeconds(phaseTime / 1000);
   const progress: Record<TimerPhase, number> = {
     HEATING: roundNum((phaseTime / HEATING_TIME_MIL_SEC) * 100),
@@ -173,6 +177,7 @@ export const TimerProvider: React.FC = ({ children }) => {
         pauseTimer,
         phase,
         total,
+        totalInSeconds,
         nextPhaseTime,
         progress,
       }}

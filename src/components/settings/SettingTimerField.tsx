@@ -1,13 +1,10 @@
-import { memo } from 'react';
+import { memo, ReactNode } from 'react';
 import {
   Flex,
   FormControl,
   FormLabel,
-  NumberDecrementStepper,
-  NumberIncrementStepper,
   NumberInput,
   NumberInputField,
-  NumberInputStepper,
   FormHelperText,
   Popover,
   PopoverTrigger,
@@ -16,33 +13,48 @@ import {
   PopoverCloseButton,
   PopoverHeader,
   PopoverBody,
+  InputLeftElement,
+  InputRightElement,
+  Button,
 } from '@chakra-ui/react';
+import { AddIcon, MinusIcon } from '@chakra-ui/icons';
+import { getDurationFromSeconds } from '../../utils/timer';
 
 import SettingsInfoIcon from './SettingsInfoIcon';
+import { isNumber } from '../../utils/utils';
 
 type SettingTimerFieldProps = {
   fieldId: string;
   title: string;
   value: number;
   onChange: (value: number) => void;
-  popover: React.ReactNode;
+  PopoverComponent: ReactNode;
+  disabled?: boolean;
+  minValue?: number;
+  maxValue?: number;
+  step?: number;
+  CheckboxComponent?: ReactNode;
 };
 
 const SettingTimerField = ({
   fieldId,
   title,
-  popover,
+  PopoverComponent,
   value,
   onChange,
+  disabled = false,
+  step = 5,
+  minValue,
+  maxValue,
+  CheckboxComponent,
 }: SettingTimerFieldProps) => {
-  const format = (val: number) => `${val}s`;
-  const parse = (val: string) => Number(val.replace('s', ''));
+  const formattedValue = getDurationFromSeconds(value);
 
   return (
     <FormControl id={fieldId} mb={4}>
       <Flex alignItems="center" justifyContent="space-between">
         <Flex alignItems="center">
-          <Popover>
+          <Popover placement="right">
             <PopoverTrigger>
               <SettingsInfoIcon />
             </PopoverTrigger>
@@ -51,7 +63,7 @@ const SettingTimerField = ({
               <PopoverCloseButton />
               <PopoverHeader>{title}</PopoverHeader>
               <PopoverBody>
-                <FormHelperText>{popover}</FormHelperText>
+                <FormHelperText>{PopoverComponent}</FormHelperText>
               </PopoverBody>
             </PopoverContent>
           </Popover>
@@ -61,19 +73,48 @@ const SettingTimerField = ({
           </FormLabel>
         </Flex>
 
+        {CheckboxComponent}
+
         <NumberInput
           id={fieldId}
-          value={format(value)}
-          min={5}
-          max={90}
-          onChange={(val) => onChange(parse(val))}
-          width="85px"
+          value={formattedValue}
+          min={minValue}
+          max={maxValue}
+          w="142px"
+          keepWithinRange
+          onChange={(_s, val) => onChange(val)}
         >
-          <NumberInputField />
-          <NumberInputStepper>
-            <NumberIncrementStepper />
-            <NumberDecrementStepper />
-          </NumberInputStepper>
+          <InputLeftElement paddingLeft="0.5rem">
+            <Button
+              w="2rem"
+              h="1.75rem"
+              size="sm"
+              disabled={
+                disabled || (isNumber(minValue) && value - step < minValue)
+              }
+              onClick={() => onChange(value - step)}
+            >
+              <MinusIcon />
+            </Button>
+          </InputLeftElement>
+          <NumberInputField
+            paddingX="3rem"
+            disabled
+            _disabled={disabled ? undefined : {}}
+          />
+          <InputRightElement paddingRight="0.5rem">
+            <Button
+              w="2rem"
+              h="1.75rem"
+              size="sm"
+              disabled={
+                disabled || (isNumber(maxValue) && value + step > maxValue)
+              }
+              onClick={() => onChange(value + step)}
+            >
+              <AddIcon />
+            </Button>
+          </InputRightElement>
         </NumberInput>
       </Flex>
     </FormControl>

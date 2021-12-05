@@ -1,6 +1,6 @@
-import { memo } from 'react';
+import { memo, SVGProps } from 'react';
 
-function FireIcon(props: React.SVGProps<SVGSVGElement>) {
+function FireIcon(props: SVGProps<SVGSVGElement>) {
   return (
     <svg
       viewBox="0 0 1024 1024"

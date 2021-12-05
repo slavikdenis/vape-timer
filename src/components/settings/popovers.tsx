@@ -25,10 +25,12 @@ export const BlazeTimerPopover = () => (
   </>
 );
 
+export const AutoStopTimerPopover = () => (
+  <>If turned on, timer is stopped after the given time limit.</>
+);
+
 export const ScreenWakeLockPopover = () => (
-  <>
-    {'Prevents your device screen from dimming/locking when timer is running.'}
-  </>
+  <>Prevents your device screen from dimming/locking when timer is running.</>
 );
 
 export const VibrationsPopover = () => (

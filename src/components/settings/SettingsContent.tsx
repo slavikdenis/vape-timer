@@ -1,4 +1,4 @@
-import { Box, useDisclosure } from '@chakra-ui/react';
+import { Box, Checkbox } from '@chakra-ui/react';
 import { memo, useCallback } from 'react';
 
 import {
@@ -7,33 +7,31 @@ import {
 } from '../../context/settings';
 import { useScreenWakeLock, useVibrate } from '../../utils/hooks';
 
-import SettingsAlert from './SettingsAlert';
 import SettingsSectionTitle from './SettingsSectionTitle';
 import SettingTimerField from './SettingTimerField';
 import SettingsSwitchField from './SettingsSwitchField';
 import {
+  AutoStopTimerPopover,
   BlazeTimerPopover,
   HeatingTimerPopover,
   ScreenWakeLockPopover,
   VibrationsPopover,
 } from './popovers';
 
+const WAVE_TIMER_MIN = 5;
+const WAVE_TIMER_MAX = 1800;
+const AUTO_STOP_MIN = 10;
+const AUTO_STOP_MAX = 3600;
+
 type SettingsContentProps = {
   isTimerRunning: boolean;
-  resetTimer: () => void;
+  showAlert: () => void;
 };
 
 const SettingsContent = ({
   isTimerRunning,
-  resetTimer,
+  showAlert,
 }: SettingsContentProps) => {
-  // Alert dialog
-  const {
-    isOpen: isAlertShown,
-    onOpen: showAlert,
-    onClose: hideAlert,
-  } = useDisclosure();
-
   // Vibrations API
   const { isSupported: isVibSupported } = useVibrate();
 
@@ -41,10 +39,18 @@ const SettingsContent = ({
   const { isSupported: isSWLSupported } = useScreenWakeLock();
 
   // Settings context
-  const { setSetting, blazeTime, heatingTime, screenWakeLock, vibrations } =
-    useSettingsContext();
+  const {
+    setSetting,
+    blazeTime,
+    heatingTime,
+    waveTime,
+    autoStopTime,
+    autoStopTimer,
+    screenWakeLock,
+    vibrations,
+  } = useSettingsContext();
 
-  const values = { blazeTime, heatingTime };
+  const values = { blazeTime, heatingTime, autoStopTime };
 
   // Handlers
   const handleTimerChange = useCallback(
@@ -55,7 +61,7 @@ const SettingsContent = ({
         if (isTimerRunning) {
           showAlert();
         } else {
-          setSetting(type, Number.isNaN(value) ? 5 : value);
+          setSetting(type, value);
         }
       }
     },
@@ -63,20 +69,8 @@ const SettingsContent = ({
     [isTimerRunning, values],
   );
 
-  const handleAlertConfirm = useCallback(() => {
-    resetTimer();
-    hideAlert();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   return (
     <>
-      <SettingsAlert
-        isOpen={isAlertShown}
-        onConfirm={handleAlertConfirm}
-        onClose={hideAlert}
-      />
-
       <Box w="100%" mt={2} mb={4}>
         <SettingsSectionTitle title="Timers" />
 
@@ -85,7 +79,9 @@ const SettingsContent = ({
           title="Heating timer"
           value={heatingTime}
           onChange={(v) => handleTimerChange('heatingTime', v)}
-          popover={<HeatingTimerPopover />}
+          minValue={WAVE_TIMER_MIN}
+          maxValue={WAVE_TIMER_MAX}
+          PopoverComponent={<HeatingTimerPopover />}
         />
 
         <SettingTimerField
@@ -93,7 +89,30 @@ const SettingsContent = ({
           title="Blaze timer"
           value={blazeTime}
           onChange={(v) => handleTimerChange('blazeTime', v)}
-          popover={<BlazeTimerPopover />}
+          minValue={WAVE_TIMER_MIN}
+          maxValue={WAVE_TIMER_MAX}
+          PopoverComponent={<BlazeTimerPopover />}
+        />
+
+        <SettingTimerField
+          fieldId="autoStopTime"
+          title="Auto Stop timer"
+          value={autoStopTime}
+          onChange={(v) => handleTimerChange('autoStopTime', v)}
+          minValue={Math.max(AUTO_STOP_MIN, waveTime)}
+          maxValue={AUTO_STOP_MAX}
+          disabled={!autoStopTimer}
+          PopoverComponent={<AutoStopTimerPopover />}
+          CheckboxComponent={
+            <Checkbox
+              colorScheme="green"
+              isChecked={autoStopTimer}
+              onChange={(e) => setSetting('autoStopTimer', e.target.checked)}
+              marginLeft="auto"
+              marginRight="0.8rem"
+              size="lg"
+            />
+          }
         />
       </Box>
 
@@ -105,7 +124,7 @@ const SettingsContent = ({
           title="Screen Wake Lock"
           isChecked={screenWakeLock}
           onChange={(v) => setSetting('screenWakeLock', v)}
-          popover={<ScreenWakeLockPopover />}
+          PopoverComponent={<ScreenWakeLockPopover />}
           disabled={isSWLSupported}
         />
 
@@ -114,7 +133,7 @@ const SettingsContent = ({
           title="Vibrations"
           isChecked={vibrations}
           onChange={(v) => setSetting('vibrations', v)}
-          popover={<VibrationsPopover />}
+          PopoverComponent={<VibrationsPopover />}
           disabled={isVibSupported}
         />
       </Box>

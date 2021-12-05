@@ -1,4 +1,6 @@
-function InfoIcon(props: React.SVGProps<SVGSVGElement>) {
+import { SVGProps } from 'react';
+
+function InfoIcon(props: SVGProps<SVGSVGElement>) {
   return (
     <svg
       viewBox="0 0 24 24"

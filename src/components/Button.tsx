@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { ButtonHTMLAttributes, memo } from 'react';
+import { ButtonHTMLAttributes, memo, ReactNode } from 'react';
 import theme from '../styling/theme';
 
 type ButtonVariant = 'default' | 'primary';
@@ -76,19 +76,20 @@ const StyledButton = styled.button<{
   ${(p) => p.disabled && disabledStyles}
 `;
 
-const Button: React.FC<
-  {
-    variant?: ButtonVariant;
-    minimal?: boolean;
-    fullWidth?: boolean;
-  } & ButtonHTMLAttributes<HTMLButtonElement>
-> = ({
+type ButtonProps = {
+  variant?: ButtonVariant;
+  minimal?: boolean;
+  fullWidth?: boolean;
+  children: ReactNode;
+} & ButtonHTMLAttributes<HTMLButtonElement>;
+
+const Button = ({
   variant = 'default',
   minimal = false,
   fullWidth = false,
   children,
   ...buttonProps
-}) => {
+}: ButtonProps) => {
   return (
     <StyledButton
       variant={variant}

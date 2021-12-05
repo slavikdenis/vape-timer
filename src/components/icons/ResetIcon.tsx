@@ -1,6 +1,6 @@
-import { memo } from 'react';
+import { memo, SVGProps } from 'react';
 
-function ResetIcon(props: React.SVGProps<SVGSVGElement>) {
+function ResetIcon(props: SVGProps<SVGSVGElement>) {
   return (
     <svg
       viewBox="0 0 21 21"

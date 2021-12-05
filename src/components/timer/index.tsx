@@ -1,6 +1,13 @@
 import { css } from '@emotion/react';
-import { memo, useEffect, useRef } from 'react';
-import { Box, ScaleFade, Flex, useDisclosure, Text } from '@chakra-ui/react';
+import { memo, useCallback, useEffect, useRef } from 'react';
+import {
+  Box,
+  ScaleFade,
+  Flex,
+  useDisclosure,
+  Text,
+  useToast,
+} from '@chakra-ui/react';
 
 import FireIcon from '../icons/FireIcon';
 import WindIcon from '../icons/WindIcon';
@@ -40,8 +47,12 @@ const Timer = () => {
   // Theme
   const { colors } = useTheme();
 
+  // Toast
+  const toast = useToast();
+
   // Settings
-  const { screenWakeLock, vibrations } = useSettingsContext();
+  const { screenWakeLock, vibrations, autoStopTime, autoStopTimer } =
+    useSettingsContext();
 
   // Timer
   const {
@@ -51,6 +62,7 @@ const Timer = () => {
     resetTimer,
     phase,
     total,
+    totalInSeconds,
     nextPhaseTime,
     progress,
   } = useTimerContext();
@@ -62,6 +74,21 @@ const Timer = () => {
   // Settings
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = useRef<HTMLButtonElement | null>(null);
+
+  // Handlers
+  const handleAutoTimerAction = useCallback(() => {
+    resetTimer();
+    toast({
+      title: 'Timer stopped',
+      description: 'Timer has been automatically stopped via Auto Stop timer.',
+      status: 'info',
+      variant: 'subtle',
+      position: 'top',
+      duration: 3000,
+      isClosable: true,
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // Effects
   useEffect(() => {
@@ -85,6 +112,16 @@ const Timer = () => {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isRunning, screenWakeLock]);
+
+  const isAutoTimerPast = autoStopTimer && autoStopTime < totalInSeconds;
+
+  useEffect(() => {
+    // Reset timer with auto timer
+    if (isAutoTimerPast) {
+      handleAutoTimerAction();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isAutoTimerPast]);
 
   return (
     <>

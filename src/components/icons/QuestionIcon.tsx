@@ -1,6 +1,6 @@
-import { memo } from 'react';
+import { memo, SVGProps } from 'react';
 
-function QuestionIcon(props: React.SVGProps<SVGSVGElement>) {
+function QuestionIcon(props: SVGProps<SVGSVGElement>) {
   return (
     <svg
       fill="currentColor"
