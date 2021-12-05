@@ -1,30 +1,28 @@
 module.exports = {
   parser: '@typescript-eslint/parser',
-  extends: [
-    'eslint:recommended',
-    'plugin:@typescript-eslint/recommended',
-    'plugin:prettier/recommended',
-    'plugin:react/recommended',
-    'prettier',
-    'next/core-web-vitals',
-    'plugin:@next/next/recommended',
-  ],
-  settings: {
-    react: {
-      version: 'detect',
-    },
-  },
   env: {
     browser: true,
     node: true,
     es6: true,
   },
   plugins: [
+    'import',
     '@typescript-eslint',
     'react',
     'react-hooks',
     '@emotion',
     'prettier',
+  ],
+  extends: [
+    'eslint:recommended',
+    'plugin:import/recommended',
+    'plugin:import/typescript',
+    'plugin:@typescript-eslint/recommended',
+    'plugin:prettier/recommended',
+    'plugin:react/recommended',
+    'prettier',
+    'next/core-web-vitals',
+    'plugin:@next/next/recommended',
   ],
   parserOptions: {
     project: './tsconfig.json',
@@ -59,5 +57,19 @@ module.exports = {
     '@emotion/import-from-emotion': 'error',
     '@emotion/styled-import': 'error',
     '@emotion/syntax-preference': [2, 'string'],
+    'import/no-unresolved': 'error',
+  },
+  settings: {
+    react: {
+      version: 'detect',
+    },
+    'import/parsers': {
+      '@typescript-eslint/parser': ['.ts', '.tsx'],
+    },
+    'import/resolver': {
+      typescript: {
+        alwaysTryTypes: true,
+      },
+    },
   },
 };
