@@ -11,6 +11,11 @@ export const getDurationFromSeconds = (time: number) => {
   return `${addZeroIfShortNumber(minutes)}:${addZeroIfShortNumber(seconds)}`;
 };
 
+export const getSecondsFromDuration = (duration: string) => {
+  const dur = duration.split(':').map(Number);
+  return dur[0] * 60 + dur[1];
+};
+
 export const getWaveIndex = (time: number, waveTime: number) =>
   Math.floor(time / waveTime);
 

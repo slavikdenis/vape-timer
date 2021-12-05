@@ -3,6 +3,7 @@ import {
   getDurationFromSeconds,
   getPhase,
   getPhaseLeftTime,
+  getSecondsFromDuration,
   getWaveIndex,
   getWavePassedTime,
   roundNum,
@@ -43,6 +44,26 @@ describe('timer utilities', () => {
 
     it.each(scenarios)('input: %d, should produce: %s', (input, output) => {
       expect(getDurationFromSeconds(input)).toEqual(output);
+    });
+  });
+
+  describe('getSecondsFromDuration', () => {
+    const scenarios: [
+      Parameters<typeof getSecondsFromDuration>[0],
+      ReturnType<typeof getSecondsFromDuration>,
+    ][] = [
+      ['00:00', 0],
+      ['00:01', 1],
+      ['00:09', 9],
+      ['00:10', 10],
+      ['00:59', 59],
+      ['01:00', 60],
+      ['01:59', 119],
+      ['10:00', 600],
+    ];
+
+    it.each(scenarios)('input: %d, should produce: %s', (input, output) => {
+      expect(getSecondsFromDuration(input)).toEqual(output);
     });
   });
 
