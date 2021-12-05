@@ -35,6 +35,9 @@ const SettingTimerField = ({
   value,
   onChange,
 }: SettingTimerFieldProps) => {
+  const format = (val: number) => `${val}s`;
+  const parse = (val: string) => Number(val.replace('s', ''));
+
   return (
     <FormControl id={fieldId} mb={4}>
       <Flex alignItems="center" justifyContent="space-between">
@@ -60,10 +63,10 @@ const SettingTimerField = ({
 
         <NumberInput
           id={fieldId}
-          value={value}
+          value={format(value)}
           min={5}
           max={90}
-          onChange={(_s, number) => onChange(number)}
+          onChange={(val) => onChange(parse(val))}
           width="85px"
         >
           <NumberInputField />
