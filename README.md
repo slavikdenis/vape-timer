@@ -20,3 +20,4 @@
 - [x] add lazy loading of components
 - [ ] add analytics
 - [x] add auto stop function 
+- [x] add prompt when leaving app while timer is running

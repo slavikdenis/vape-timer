@@ -113,6 +113,20 @@ const Timer = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isRunning, screenWakeLock]);
 
+  useEffect(() => {
+    if (isRunning) {
+      window.onbeforeunload = function () {
+        return 'Timer is still running. Are you sure you want to leave the page?';
+      };
+    } else {
+      window.onbeforeunload = null;
+    }
+
+    return () => {
+      window.onbeforeunload = null;
+    };
+  }, [isRunning]);
+
   const isAutoTimerPast = autoStopTimer && autoStopTime < totalInSeconds;
 
   useEffect(() => {
