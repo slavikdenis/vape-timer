@@ -127,11 +127,11 @@ const Timer = () => {
     };
   }, [isRunning]);
 
-  const isAutoTimerPast = autoStopTimer && autoStopTime < totalInSeconds;
+  const isAutoTimerPast = autoStopTime < totalInSeconds;
 
   useEffect(() => {
     // Reset timer with auto timer
-    if (isAutoTimerPast) {
+    if (isAutoTimerPast && autoStopTimer) {
       handleAutoTimerAction();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
