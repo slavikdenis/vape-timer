@@ -125,7 +125,7 @@ const SettingsContent = ({
           isChecked={screenWakeLock}
           onChange={(v) => setSetting('screenWakeLock', v)}
           PopoverComponent={<ScreenWakeLockPopover />}
-          disabled={isSWLSupported}
+          disabled={!isSWLSupported}
         />
 
         <SettingsSwitchField
@@ -134,7 +134,7 @@ const SettingsContent = ({
           isChecked={vibrations}
           onChange={(v) => setSetting('vibrations', v)}
           PopoverComponent={<VibrationsPopover />}
-          disabled={isVibSupported}
+          disabled={!isVibSupported}
         />
       </Box>
     </>
