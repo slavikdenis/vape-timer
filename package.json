@@ -75,5 +75,8 @@
     "src/**/*.{ts,tsx}": [
       "yarn type-check"
     ]
+  },
+  "engines": {
+    "node": ">=16"
   }
 }
