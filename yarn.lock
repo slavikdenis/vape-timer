@@ -1454,6 +1454,14 @@
     "@chakra-ui/utils" "2.0.0"
     "@ctrl/tinycolor" "^3.4.0"
 
+"@chakra-ui/theme-tools@^2.0.1":
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/@chakra-ui/theme-tools/-/theme-tools-2.0.2.tgz#2f59f14f553dcb5ccc8e8492cb9524954fe1bf89"
+  integrity sha512-E01ZJZB4XVqkvn2hOXKQ/uVkvaPLQN1SyxAYXjFZGyZ1ppBLl362EWfY9IgWNzDITgq9MCJyQFfm2mXwQDUNzA==
+  dependencies:
+    "@chakra-ui/utils" "2.0.2"
+    "@ctrl/tinycolor" "^3.4.0"
+
 "@chakra-ui/theme@2.0.2":
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/@chakra-ui/theme/-/theme-2.0.2.tgz#11d2821b8abd58efa27fe0c46bc440f3877fdbbc"
