@@ -1,14 +1,5 @@
-import {
-  ColorModeOptions,
-  extendTheme,
-  useTheme as useChakraTheme,
-} from '@chakra-ui/react';
+import { extendTheme, useTheme as useChakraTheme } from '@chakra-ui/react';
 import { GlobalStyles } from '@chakra-ui/theme-tools';
-
-const config: ColorModeOptions = {
-  useSystemColorMode: true,
-  initialColorMode: 'dark',
-};
 
 const styles: GlobalStyles = {
   global: {
@@ -21,7 +12,13 @@ const styles: GlobalStyles = {
   },
 };
 
-const theme = extendTheme({ config, styles });
+const theme = extendTheme({
+  config: {
+    useSystemColorMode: true,
+    initialColorMode: 'dark',
+  },
+  styles,
+});
 
 export type Theme = typeof theme;
 

@@ -95,18 +95,18 @@ export const TimerProvider = ({ children }: { children: ReactNode }) => {
   const startTimer = useCallback(() => {
     startTimerInterval();
     setIsRunning(true);
-  }, []);
+  }, [startTimerInterval]);
 
   const resetTimer = useCallback(() => {
     clearTimer();
     setTime(0);
     setIsRunning(false);
-  }, []);
+  }, [clearTimer]);
 
   const pauseTimer = useCallback(() => {
     clearTimer();
     setIsRunning(false);
-  }, []);
+  }, [clearTimer]);
 
   const visibilityChangeHandler = useCallback(() => {
     if (isRunning) {
@@ -127,7 +127,7 @@ export const TimerProvider = ({ children }: { children: ReactNode }) => {
         tabWentInactiveAt.current = null;
       }
     }
-  }, [isRunning]);
+  }, [isRunning, clearTimer, startTimerInterval]);
 
   // Watch tab visibity
   useEffect(() => {
