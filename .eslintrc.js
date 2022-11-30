@@ -22,7 +22,6 @@ module.exports = {
     'plugin:react/recommended',
     'prettier',
     'next/core-web-vitals',
-    'plugin:@next/next/recommended',
   ],
   parserOptions: {
     project: './tsconfig.json',

@@ -7,6 +7,7 @@
 
 # testing
 /coverage
+cypress/videos
 
 # next.js
 /.next/
@@ -39,6 +40,7 @@ yarn-error.log*
 # Workers
 **/public/workbox-*.js*
 **/public/sw.js*
+**/public/fallback-*.js*
 
 # tsconfig
 tsconfig.tsbuildinfo

@@ -16,6 +16,7 @@ import {
   InputLeftElement,
   InputRightElement,
   Button,
+  InputGroup,
 } from '@chakra-ui/react';
 import { AddIcon, MinusIcon } from '@chakra-ui/icons';
 import { getDurationFromSeconds } from '../../utils/timer';
@@ -84,37 +85,41 @@ const SettingTimerField = ({
           keepWithinRange
           onChange={(_s, val) => onChange(val)}
         >
-          <InputLeftElement paddingLeft="0.5rem">
-            <Button
-              w="2rem"
-              h="1.75rem"
-              size="sm"
-              disabled={
-                disabled || (isNumber(minValue) && value - step < minValue)
-              }
-              onClick={() => onChange(value - step)}
-            >
-              <MinusIcon />
-            </Button>
-          </InputLeftElement>
-          <NumberInputField
-            paddingX="3rem"
-            disabled
-            _disabled={disabled ? undefined : {}}
-          />
-          <InputRightElement paddingRight="0.5rem">
-            <Button
-              w="2rem"
-              h="1.75rem"
-              size="sm"
-              disabled={
-                disabled || (isNumber(maxValue) && value + step > maxValue)
-              }
-              onClick={() => onChange(value + step)}
-            >
-              <AddIcon />
-            </Button>
-          </InputRightElement>
+          <InputGroup>
+            <InputLeftElement paddingLeft="0.5rem">
+              <Button
+                w="2rem"
+                h="1.75rem"
+                size="sm"
+                disabled={
+                  disabled || (isNumber(minValue) && value - step < minValue)
+                }
+                onClick={() => onChange(value - step)}
+              >
+                <MinusIcon />
+              </Button>
+            </InputLeftElement>
+
+            <NumberInputField
+              paddingX="3rem"
+              disabled
+              _disabled={disabled ? undefined : {}}
+            />
+
+            <InputRightElement paddingRight="0.5rem">
+              <Button
+                w="2rem"
+                h="1.75rem"
+                size="sm"
+                disabled={
+                  disabled || (isNumber(maxValue) && value + step > maxValue)
+                }
+                onClick={() => onChange(value + step)}
+              >
+                <AddIcon />
+              </Button>
+            </InputRightElement>
+          </InputGroup>
         </NumberInput>
       </Flex>
     </FormControl>

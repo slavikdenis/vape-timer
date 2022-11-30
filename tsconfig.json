@@ -13,9 +13,10 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
-    "incremental": true
+    "incremental": true,
+    "types": ["jest", "dom-screen-wake-lock"]
   },
-  "include": ["next-env.d.ts", "emotion.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": ["next-env.d.ts", "emotion.d.ts", "src/**/*.ts", "src/**/*.tsx"],
   "exclude": [
     "node_modules",
     "cypress",
