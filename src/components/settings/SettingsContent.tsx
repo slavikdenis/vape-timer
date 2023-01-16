@@ -101,7 +101,7 @@ const SettingsContent = ({
           onChange={(v) => handleTimerChange('autoStopTime', v)}
           minValue={Math.max(AUTO_STOP_MIN, waveTime)}
           maxValue={AUTO_STOP_MAX}
-          disabled={!autoStopTimer}
+          isDisabled={!autoStopTimer}
           PopoverComponent={<AutoStopTimerPopover />}
           CheckboxComponent={
             <Checkbox
@@ -125,7 +125,7 @@ const SettingsContent = ({
           isChecked={screenWakeLock}
           onChange={(v) => setSetting('screenWakeLock', v)}
           PopoverComponent={<ScreenWakeLockPopover />}
-          disabled={!isSWLSupported}
+          isDisabled={!isSWLSupported}
         />
 
         <SettingsSwitchField
@@ -134,7 +134,7 @@ const SettingsContent = ({
           isChecked={vibrations}
           onChange={(v) => setSetting('vibrations', v)}
           PopoverComponent={<VibrationsPopover />}
-          disabled={!isVibSupported}
+          isDisabled={!isVibSupported}
         />
       </Box>
     </>

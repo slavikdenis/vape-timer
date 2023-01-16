@@ -22,7 +22,7 @@ type SettingsSwitchFieldProps = {
   isChecked: boolean;
   onChange: (value: boolean) => void;
   PopoverComponent: ReactNode;
-  disabled?: boolean;
+  isDisabled?: boolean;
 };
 
 const SettingsSwitchField = ({
@@ -31,7 +31,7 @@ const SettingsSwitchField = ({
   PopoverComponent,
   isChecked,
   onChange,
-  disabled = false,
+  isDisabled = false,
 }: SettingsSwitchFieldProps) => {
   return (
     <FormControl id={fieldId}>
@@ -62,7 +62,7 @@ const SettingsSwitchField = ({
           isChecked={isChecked}
           colorScheme="green"
           size="lg"
-          disabled={disabled}
+          isDisabled={isDisabled}
         />
       </Flex>
     </FormControl>

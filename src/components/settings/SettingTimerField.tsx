@@ -30,7 +30,7 @@ type SettingTimerFieldProps = {
   value: number;
   onChange: (value: number) => void;
   PopoverComponent: ReactNode;
-  disabled?: boolean;
+  isDisabled?: boolean;
   minValue?: number;
   maxValue?: number;
   step?: number;
@@ -43,7 +43,7 @@ const SettingTimerField = ({
   PopoverComponent,
   value,
   onChange,
-  disabled = false,
+  isDisabled = false,
   step = 5,
   minValue,
   maxValue,
@@ -91,8 +91,8 @@ const SettingTimerField = ({
                 w="2rem"
                 h="1.75rem"
                 size="sm"
-                disabled={
-                  disabled || (isNumber(minValue) && value - step < minValue)
+                isDisabled={
+                  isDisabled || (isNumber(minValue) && value - step < minValue)
                 }
                 onClick={() => onChange(value - step)}
               >
@@ -103,7 +103,7 @@ const SettingTimerField = ({
             <NumberInputField
               paddingX="3rem"
               disabled
-              _disabled={disabled ? undefined : {}}
+              _disabled={isDisabled ? undefined : {}}
             />
 
             <InputRightElement paddingRight="0.5rem">
@@ -111,8 +111,8 @@ const SettingTimerField = ({
                 w="2rem"
                 h="1.75rem"
                 size="sm"
-                disabled={
-                  disabled || (isNumber(maxValue) && value + step > maxValue)
+                isDisabled={
+                  isDisabled || (isNumber(maxValue) && value + step > maxValue)
                 }
                 onClick={() => onChange(value + step)}
               >
