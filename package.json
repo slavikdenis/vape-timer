@@ -19,7 +19,7 @@
     "@chakra-ui/icons": "^2.0.17",
     "@chakra-ui/react": "^2.5.0",
     "@chakra-ui/theme-tools": "^2.0.17",
-    "@emotion/react": "^11",
+    "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
     "framer-motion": "^6",
     "next": "^13.1.3",
