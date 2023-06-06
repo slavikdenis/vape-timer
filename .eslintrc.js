@@ -44,7 +44,6 @@ module.exports = {
     // needed for NextJS's jsx without react import
     'react/react-in-jsx-scope': 'off',
     curly: 'error',
-    '@typescript-eslint/no-explicit-any': 'warn',
     '@typescript-eslint/prefer-optional-chain': 'error',
     '@typescript-eslint/prefer-nullish-coalescing': 'error',
     'react-hooks/rules-of-hooks': 'error',

@@ -14,12 +14,18 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
-    "types": ["jest", "dom-screen-wake-lock"]
+    "types": ["jest", "cypress", "dom-screen-wake-lock"]
   },
-  "include": ["next-env.d.ts", "emotion.d.ts", "src/**/*.ts", "src/**/*.tsx"],
+  "include": [
+    "next-env.d.ts",
+    "emotion.d.ts",
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "cypress/**/*.ts",
+    "cypress/**/*.tsx"
+  ],
   "exclude": [
     "node_modules",
-    "cypress",
     "__mocks__",
     "jest.config.js",
     "jest.setup.js",
