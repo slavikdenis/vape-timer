@@ -7,13 +7,25 @@ jobs:
     if: github.event_name == 'deployment_status' && github.event.deployment_status.state == 'success'
     runs-on: ubuntu-latest
     steps:
-      - name: Dump GitHub context
-        env:
-          GITHUB_CONTEXT: ${{ toJson(github) }}
-        run: echo "$GITHUB_CONTEXT"
       - name: Checkout 🛎
         uses: actions/checkout@v3
+      # Cache node_modules
+      - name: Cache node_modules
+        id: cache-yarn
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+      # Install dependencies only when yarn.lock changes
+      - name: Install dependencies
+        if: steps.cache-yarn.outputs.cache-hit != 'true'
+        run: yarn install --frozen-lockfile
+      # Run Cypress
       - name: Run Cypress 🌲
         uses: cypress-io/github-action@v5
+        with:
+          install: false
         env:
           CYPRESS_BASE_URL: ${{ github.event.deployment_status.target_url }}
