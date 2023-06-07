@@ -81,8 +81,8 @@ const Timer = () => {
 
   // Handlers
   const handleAutoTimerAction = useCallback(() => {
-    vibrate(VIBRATE_PATTERNS.AUTO_STOP);
     resetTimer();
+    vibrate(VIBRATE_PATTERNS.AUTO_STOP);
     toast({
       title: 'Timer stopped',
       description: 'Timer has been automatically stopped via Auto Stop timer.',
@@ -92,6 +92,7 @@ const Timer = () => {
       duration: 3000,
       isClosable: true,
     });
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
