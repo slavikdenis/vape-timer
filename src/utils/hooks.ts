@@ -3,11 +3,20 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 // eslint-disable-next-line @typescript-eslint/no-empty-function
 const noop = () => {};
 
+export const VIBRATE_PATTERNS: Record<
+  'PHASE_CHANGE' | 'AUTO_STOP',
+  number | number[]
+> = {
+  PHASE_CHANGE: 300,
+  AUTO_STOP: [150, 10, 150],
+};
+
 export function useVibrate() {
   const [isSupported, setIsSupported] = useState(false);
 
   const vibrate = useCallback(
-    () => (isSupported ? navigator.vibrate(300) : noop),
+    (pattern: number | number[]) =>
+      isSupported ? navigator.vibrate(pattern) : noop,
     [isSupported],
   );
 

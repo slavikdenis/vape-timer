@@ -21,7 +21,11 @@ import SettingsIcon from '../icons/SettingsIcon';
 // import QuestionIcon from '../icons/QuestionIcon';
 import CircleProgress from '../CircleProgress';
 
-import { useScreenWakeLock, useVibrate } from '../../utils/hooks';
+import {
+  VIBRATE_PATTERNS,
+  useScreenWakeLock,
+  useVibrate,
+} from '../../utils/hooks';
 
 import { useSettingsContext } from '../../context/settings';
 import { useTimerContext } from '../../context/timer';
@@ -77,6 +81,7 @@ const Timer = () => {
 
   // Handlers
   const handleAutoTimerAction = useCallback(() => {
+    vibrate(VIBRATE_PATTERNS.AUTO_STOP);
     resetTimer();
     toast({
       title: 'Timer stopped',
@@ -94,7 +99,7 @@ const Timer = () => {
   useEffect(() => {
     // Vibrate device, when phase changes to blaze
     if (phase === 'BLAZE' && vibrations) {
-      vibrate();
+      vibrate(VIBRATE_PATTERNS.PHASE_CHANGE);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [phase, vibrations]);
@@ -324,6 +329,7 @@ const Timer = () => {
 
         <Box pos="absolute" right="20px" bottom="20px">
           <CircleButton
+            data-testid="settings-button"
             ref={btnRef}
             aria-label="Open settings"
             onClick={onOpen}
