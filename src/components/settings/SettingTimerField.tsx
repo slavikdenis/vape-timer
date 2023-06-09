@@ -52,7 +52,7 @@ const SettingTimerField = ({
   const formattedValue = getDurationFromSeconds(value);
 
   return (
-    <FormControl id={fieldId} mb={4}>
+    <FormControl id={fieldId} mb={4} data-testid={`settings-field-${fieldId}`}>
       <Flex alignItems="center" justifyContent="space-between">
         <Flex alignItems="center">
           <Popover placement="right">
@@ -95,6 +95,7 @@ const SettingTimerField = ({
                   isDisabled || (isNumber(minValue) && value - step < minValue)
                 }
                 onClick={() => onChange(value - step)}
+                data-testid={`settings-decrement-button-${fieldId}`}
               >
                 <MinusIcon />
               </Button>
@@ -104,6 +105,7 @@ const SettingTimerField = ({
               paddingX="3rem"
               disabled
               _disabled={isDisabled ? undefined : {}}
+              data-testid={`settings-input-${fieldId}`}
             />
 
             <InputRightElement paddingRight="0.5rem">
@@ -115,6 +117,7 @@ const SettingTimerField = ({
                   isDisabled || (isNumber(maxValue) && value + step > maxValue)
                 }
                 onClick={() => onChange(value + step)}
+                data-testid={`settings-increment-button-${fieldId}`}
               >
                 <AddIcon />
               </Button>

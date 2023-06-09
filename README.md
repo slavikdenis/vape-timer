@@ -13,7 +13,7 @@
 - [x] add functionality to timers to be preserved running when tab is inactive
 - [x] add unit tests
 - [x] add app e2e tests
-- [ ] add settings e2e tests
+- [x] add settings e2e tests
 - [ ] add gif to README of functions
 - [ ] ? add page with motivation/description
 - [ ] add animated background
