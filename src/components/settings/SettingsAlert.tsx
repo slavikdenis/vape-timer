@@ -13,9 +13,15 @@ type SettingsAlertProps = {
   isOpen: boolean;
   onClose: () => void;
   onConfirm: () => void;
+  type: 'RUNNING' | 'PAUSED';
 };
 
-const SettingsAlert = ({ isOpen, onConfirm, onClose }: SettingsAlertProps) => {
+const SettingsAlert = ({
+  isOpen,
+  onConfirm,
+  onClose,
+  type,
+}: SettingsAlertProps) => {
   const cancelRef = useRef(null);
 
   return (
@@ -23,6 +29,7 @@ const SettingsAlert = ({ isOpen, onConfirm, onClose }: SettingsAlertProps) => {
       isOpen={isOpen}
       leastDestructiveRef={cancelRef}
       onClose={onClose}
+      id={`settings-alert-${type}`}
     >
       <AlertDialogOverlay>
         <AlertDialogContent>
@@ -31,24 +38,21 @@ const SettingsAlert = ({ isOpen, onConfirm, onClose }: SettingsAlertProps) => {
           </AlertDialogHeader>
 
           <AlertDialogBody>
-            You cannot change timers while the timer is running.
+            You have to reset the current timer before changing settings. The
+            timer is currently {type.toLowerCase()}.
           </AlertDialogBody>
 
           <AlertDialogFooter>
-            <Button
-              ref={cancelRef}
-              onClick={onClose}
-              aria-label="Cancel the timer"
-            >
+            <Button ref={cancelRef} onClick={onClose} aria-label="Cancel alert">
               Cancel
             </Button>
             <Button
               colorScheme="red"
               onClick={onConfirm}
               ml={3}
-              aria-label="Stop the timer"
+              aria-label="Reset the timer"
             >
-              Stop the timer
+              Reset the timer
             </Button>
           </AlertDialogFooter>
         </AlertDialogContent>

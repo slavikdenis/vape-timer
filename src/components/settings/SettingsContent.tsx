@@ -24,12 +24,12 @@ const AUTO_STOP_MIN = 10;
 const AUTO_STOP_MAX = 3600;
 
 type SettingsContentProps = {
-  isTimerRunning: boolean;
+  isTimerActive: boolean;
   showAlert: () => void;
 };
 
 const SettingsContent = ({
-  isTimerRunning,
+  isTimerActive,
   showAlert,
 }: SettingsContentProps) => {
   // Vibrations API
@@ -58,7 +58,7 @@ const SettingsContent = ({
       const didValueChange = values[type] !== value;
 
       if (didValueChange) {
-        if (isTimerRunning) {
+        if (isTimerActive) {
           showAlert();
         } else {
           setSetting(type, value);
@@ -66,7 +66,7 @@ const SettingsContent = ({
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [isTimerRunning, values],
+    [isTimerActive, values],
   );
 
   return (

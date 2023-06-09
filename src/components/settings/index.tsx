@@ -10,7 +10,7 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import { css } from '@emotion/react';
-import { memo, useCallback } from 'react';
+import { memo } from 'react';
 import { useSettingsContext } from '../../context/settings';
 import { useTimerContext } from '../../context/timer';
 import Button from '../Button';
@@ -39,23 +39,25 @@ const SettingsDrawer = ({
 
   // Timer context
   const { state, resetTimer } = useTimerContext();
-  const isTimerRunning = state === 'RUNNING';
+  const isTimerActive = state === 'PAUSED' || state === 'RUNNING';
 
   // Handler
-  const handleTimersReset = useCallback(() => {
-    if (isTimerRunning) {
+  const handleTimersReset = () => {
+    if (isTimerActive) {
       showAlert();
     } else {
       setDefaultTimers();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isTimerRunning]);
+  };
 
-  const handleAlertConfirm = useCallback(() => {
-    resetTimer();
+  const hideAlerts = () => {
     hideAlert();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  };
+
+  const handleAlertConfirm = () => {
+    resetTimer();
+    hideAlerts();
+  };
 
   return (
     <Drawer
@@ -70,7 +72,8 @@ const SettingsDrawer = ({
           <SettingsAlert
             isOpen={isAlertShown}
             onConfirm={handleAlertConfirm}
-            onClose={hideAlert}
+            onClose={hideAlerts}
+            type={state === 'PAUSED' ? 'PAUSED' : 'RUNNING'}
           />
 
           <DrawerCloseButton
@@ -80,12 +83,15 @@ const SettingsDrawer = ({
               right: 24px;
               top: 18px;
             `}
+            data-testid="settings-close-button"
           />
 
-          <DrawerHeader borderBottomWidth="1px">Settings</DrawerHeader>
+          <DrawerHeader borderBottomWidth="1px" data-testid="settings-title">
+            Settings
+          </DrawerHeader>
 
           <DrawerBody overflowX="hidden">
-            <Content isTimerRunning={isTimerRunning} showAlert={showAlert} />
+            <Content isTimerActive={isTimerActive} showAlert={showAlert} />
           </DrawerBody>
 
           {!areTimerSettingsDefault && (
@@ -95,6 +101,7 @@ const SettingsDrawer = ({
                 fullWidth
                 onClick={handleTimersReset}
                 aria-label="Reset timers"
+                data-testid="reset-timers"
               >
                 Reset timers
               </Button>
