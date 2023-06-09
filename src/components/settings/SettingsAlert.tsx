@@ -20,8 +20,9 @@ const SettingsAlert = ({
   isOpen,
   onConfirm,
   onClose,
-  type,
+  type: alertType,
 }: SettingsAlertProps) => {
+  const type = alertType.toLowerCase();
   const cancelRef = useRef(null);
 
   return (
@@ -39,7 +40,7 @@ const SettingsAlert = ({
 
           <AlertDialogBody>
             You have to reset the current timer before changing settings. The
-            timer is currently {type.toLowerCase()}.
+            timer is currently {type}.
           </AlertDialogBody>
 
           <AlertDialogFooter>
