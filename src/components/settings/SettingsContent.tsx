@@ -111,6 +111,7 @@ const SettingsContent = ({
               marginLeft="auto"
               marginRight="0.8rem"
               size="lg"
+              data-testid="auto-stop-timer-checkbox"
             />
           }
         />

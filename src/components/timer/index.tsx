@@ -84,6 +84,7 @@ const Timer = () => {
     vibrate(VIBRATE_PATTERNS.AUTO_STOP);
     resetTimer();
     toast({
+      id: 'auto-stop-timer',
       title: 'Timer stopped',
       description: 'Timer has been automatically stopped via Auto Stop timer.',
       status: 'info',
