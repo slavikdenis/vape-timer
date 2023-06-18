@@ -1,6 +1,11 @@
 name: e2e
+
 # https://docs.github.com/en/actions/reference/events-that-trigger-workflows
 on: [push, deployment, deployment_status]
+
+# Cancel previously running jobs
+concurrency: ${{ github.workflow }}-${{ github.ref }}
+
 jobs:
   e2e:
     # only runs this job on successful deploy

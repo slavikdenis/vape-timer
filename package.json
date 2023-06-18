@@ -1,6 +1,6 @@
 {
   "name": "vape-timer",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "scripts": {
     "dev": "next",
     "build": "next build",
@@ -13,7 +13,11 @@
     "test-coverage": "jest --coverage",
     "prepare": "husky install",
     "cypress": "cypress open",
-    "cypress-headless": "cypress run"
+    "cypress-headless": "cypress run",
+    "bump-patch": "npm version patch -m \"Update to %s (patch)\" && git push && git push --tags",
+    "bump-minor": "npm version minor -m \"Update to %s (minor)\" && git push && git push --tags",
+    "bump-major": "npm version major -m \"Update to %s (major)\" && git push && git push --tags",
+    "version": "auto-changelog -p && git add CHANGELOG.md"
   },
   "dependencies": {
     "@chakra-ui/icons": "^2.0.19",
@@ -22,7 +26,7 @@
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "framer-motion": "^10.12.16",
-    "next": "^13.4.4",
+    "next": "^13.4.6",
     "next-pwa": "^5.6.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
@@ -30,21 +34,22 @@
   "devDependencies": {
     "@emotion/babel-plugin": "^11.11.0",
     "@emotion/eslint-plugin": "^11.11.0",
-    "@next/eslint-plugin-next": "^13.4.4",
+    "@next/eslint-plugin-next": "^13.4.6",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^14.0.0",
     "@testing-library/react-hooks": "^8.0.1",
     "@types/dom-screen-wake-lock": "^1.0.1",
     "@types/jest": "^29.5.2",
-    "@types/node": "^20.2.5",
-    "@types/react": "^18.2.9",
-    "@types/react-dom": "^18.2.4",
-    "@typescript-eslint/eslint-plugin": "^5.59.9",
-    "@typescript-eslint/parser": "^5.59.9",
+    "@types/node": "^20.3.1",
+    "@types/react": "^18.2.12",
+    "@types/react-dom": "^18.2.5",
+    "@typescript-eslint/eslint-plugin": "^5.59.11",
+    "@typescript-eslint/parser": "^5.59.11",
+    "auto-changelog": "^2.4.0",
     "babel-jest": "^29.5.0",
     "cypress": "^12.14.0",
-    "eslint": "8.42.0",
-    "eslint-config-next": "^13.4.4",
+    "eslint": "8.43.0",
+    "eslint-config-next": "^13.4.6",
     "eslint-config-prettier": "^8.8.0",
     "eslint-import-resolver-typescript": "^3.5.5",
     "eslint-loader": "^4.0.2",
@@ -77,6 +82,11 @@
     "src/**/*.{ts,tsx}": [
       "yarn type-check"
     ]
+  },
+  "auto-changelog": {
+    "template": "keepachangelog",
+    "unreleased": true,
+    "commitLimit": false
   },
   "engines": {
     "node": ">=16"
