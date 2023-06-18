@@ -1,4 +1,6 @@
 import {
+  Box,
+  Divider,
   Drawer,
   DrawerBody,
   DrawerCloseButton,
@@ -7,15 +9,19 @@ import {
   DrawerHeader,
   DrawerOverlay,
   DrawerProps,
+  Link,
+  Text,
   useDisclosure,
 } from '@chakra-ui/react';
 import { css } from '@emotion/react';
-import { memo } from 'react';
+import { memo, useRef } from 'react';
 import { useSettingsContext } from '../../context/settings';
 import { useTimerContext } from '../../context/timer';
 import Button from '../Button';
 import SettingsAlert from './SettingsAlert';
 import Content from './SettingsContent';
+import { getCurrentVersion } from '../../utils/utils';
+import GithubIcon from '../icons/GithubIcon';
 
 type SettingsDrawerProps = Pick<
   DrawerProps,
@@ -27,6 +33,8 @@ const SettingsDrawer = ({
   onClose,
   finalFocusRef,
 }: SettingsDrawerProps) => {
+  const packageVersion = useRef(getCurrentVersion()).current;
+
   // Alert dialog
   const {
     isOpen: isAlertShown,
@@ -95,7 +103,7 @@ const SettingsDrawer = ({
           </DrawerBody>
 
           {!areTimerSettingsDefault && (
-            <DrawerFooter>
+            <DrawerFooter flexDirection="column">
               <Button
                 minimal
                 fullWidth
@@ -107,6 +115,27 @@ const SettingsDrawer = ({
               </Button>
             </DrawerFooter>
           )}
+
+          <Divider marginY={2} />
+
+          <Box
+            width="100%"
+            paddingBottom={2}
+            paddingX={6}
+            display="flex"
+            flexDirection="row"
+            justifyContent="space-between"
+            alignItems="center"
+          >
+            <Text fontSize="xs">Version: {packageVersion}</Text>
+
+            <Link
+              href="https://github.com/slavikdenis/vape-timer"
+              target="_blank"
+            >
+              <GithubIcon width={30} height={30} fill="#FFFFFF" />
+            </Link>
+          </Box>
         </DrawerContent>
       </DrawerOverlay>
     </Drawer>
