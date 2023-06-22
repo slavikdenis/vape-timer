@@ -37,10 +37,12 @@ yarn-error.log*
 # IDE
 .vscode
 
-# Workers
-**/public/workbox-*.js*
-**/public/sw.js*
-**/public/fallback-*.js*
+# next-pwa
+**/public/workbox**
+**/public/sw**
+**/public/worker**
+**/public/fallback**
+**/public/precache**
 
 # tsconfig
 tsconfig.tsbuildinfo
