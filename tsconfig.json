@@ -14,7 +14,12 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
-    "types": ["jest", "cypress", "dom-screen-wake-lock"]
+    "types": [
+      "jest",
+      "cypress",
+      "dom-screen-wake-lock",
+      "@ducanh2912/next-pwa/workbox"
+    ]
   },
   "include": [
     "next-env.d.ts",
