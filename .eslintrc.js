@@ -50,6 +50,8 @@ module.exports = {
     'react-hooks/exhaustive-deps': 'warn',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     'no-nested-ternary': 'error',
+    'no-console': 'error',
+    '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
     // emotion
     '@emotion/no-vanilla': 'error',
     '@emotion/import-from-emotion': 'error',
