@@ -4,6 +4,7 @@ import {
   useCallback,
   useContext,
   useEffect,
+  useMemo,
   useRef,
   useState,
 } from 'react';
@@ -171,21 +172,32 @@ export const TimerProvider = ({ children }: { children: ReactNode }) => {
     BLAZE: roundNum((phaseTime / BLAZE_TIME_MIL_SEC) * 100),
   };
 
+  const values = useMemo(
+    () => ({
+      state,
+      startTimer,
+      resetTimer,
+      pauseTimer,
+      phase,
+      total,
+      totalInSeconds,
+      nextPhaseTime,
+      progress,
+    }),
+    [
+      state,
+      startTimer,
+      resetTimer,
+      pauseTimer,
+      phase,
+      total,
+      totalInSeconds,
+      nextPhaseTime,
+      progress,
+    ],
+  );
+
   return (
-    <TimerContext.Provider
-      value={{
-        state,
-        startTimer,
-        resetTimer,
-        pauseTimer,
-        phase,
-        total,
-        totalInSeconds,
-        nextPhaseTime,
-        progress,
-      }}
-    >
-      {children}
-    </TimerContext.Provider>
+    <TimerContext.Provider value={values}>{children}</TimerContext.Provider>
   );
 };

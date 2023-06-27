@@ -144,16 +144,19 @@ export const SettingsProvider = ({ children }: { children: ReactNode }) => {
     }
   }, [waveTime]);
 
+  const values = useMemo(
+    () => ({
+      ...state,
+      waveTime,
+      areTimerSettingsDefault,
+      setSetting,
+      setDefaultTimers,
+    }),
+    [state, waveTime, areTimerSettingsDefault, setSetting, setDefaultTimers],
+  );
+
   return (
-    <SettingsContext.Provider
-      value={{
-        ...state,
-        waveTime,
-        areTimerSettingsDefault,
-        setSetting,
-        setDefaultTimers,
-      }}
-    >
+    <SettingsContext.Provider value={values}>
       {children}
     </SettingsContext.Provider>
   );
