@@ -75,14 +75,6 @@ export function useScreenWakeLock() {
   useEffect(() => {
     // Check if 'Screen Wake Lock API is supported
     setIsSupported('wakeLock' in navigator);
-
-    return () => {
-      // Releasing wave lock
-      if (wakeLock.current) {
-        wakeLock.current.release();
-        wakeLock.current = null;
-      }
-    };
   }, []);
 
   // Re-lock screen after visibility change

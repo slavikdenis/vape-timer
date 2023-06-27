@@ -46,7 +46,7 @@ const Timer = () => {
   const { vibrate } = useVibrate();
 
   // Screen Wake Lock API
-  const { lock, release } = useScreenWakeLock();
+  const { lock, release, isLocked } = useScreenWakeLock();
 
   // Theme
   const { colors } = useTheme();
@@ -108,17 +108,20 @@ const Timer = () => {
 
   useEffect(() => {
     // Lock screen, when timer is running
-    if (isRunning && screenWakeLock) {
+    // Release lock when timer is not running and is locked
+    if (isRunning && screenWakeLock && !isLocked) {
       lock();
-    } else {
+    } else if (!isRunning && screenWakeLock && isLocked && didTimerStarted) {
       release();
     }
 
     return () => {
-      release();
+      if (isLocked) {
+        release();
+      }
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isRunning, screenWakeLock]);
+  }, [isRunning, didTimerStarted, isLocked, screenWakeLock]);
 
   useEffect(() => {
     if (isRunning) {
