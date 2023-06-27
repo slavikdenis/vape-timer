@@ -4,7 +4,7 @@ A minimalistic offline-first timer [Progressive web app](https://developer.mozil
 
 ## Showcase
 
-[Showcase GIF](demo/showcase.gif)
+![Showcase GIF](demo/showcase.gif)
 
 ## Features
 
