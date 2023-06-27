@@ -93,8 +93,6 @@ const Timer = () => {
       duration: 3000,
       isClosable: true,
     });
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Effects
@@ -103,7 +101,6 @@ const Timer = () => {
     if (phase === 'BLAZE' && vibrations) {
       vibrate(VIBRATE_PATTERNS.PHASE_CHANGE);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [phase, vibrations]);
 
   useEffect(() => {
@@ -144,7 +141,6 @@ const Timer = () => {
     if (isAutoTimerPast && autoStopTimer) {
       handleAutoTimerAction();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAutoTimerPast]);
 
   return (

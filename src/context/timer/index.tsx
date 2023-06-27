@@ -46,12 +46,15 @@ const initialTimerContext: TimerContextState &
   totalInSeconds: 0,
   nextPhaseTime: '?',
   progress: { BLAZE: 0, HEATING: 0 },
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  startTimer: () => {},
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  pauseTimer: () => {},
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  resetTimer: () => {},
+  startTimer: () => {
+    // noop
+  },
+  pauseTimer: () => {
+    // noop
+  },
+  resetTimer: () => {
+    // noop
+  },
 };
 
 const TimerContext = createContext<

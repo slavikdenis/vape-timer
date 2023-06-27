@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 
-// eslint-disable-next-line @typescript-eslint/no-empty-function
-const noop = () => {};
+const noop = () => {
+  // noop
+};
 
 export const VIBRATE_PATTERNS: Record<
   'PHASE_CHANGE' | 'AUTO_STOP',
