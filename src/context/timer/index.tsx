@@ -4,6 +4,7 @@ import {
   useCallback,
   useContext,
   useEffect,
+  useMemo,
   useRef,
   useState,
 } from 'react';
@@ -46,12 +47,15 @@ const initialTimerContext: TimerContextState &
   totalInSeconds: 0,
   nextPhaseTime: '?',
   progress: { BLAZE: 0, HEATING: 0 },
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  startTimer: () => {},
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  pauseTimer: () => {},
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  resetTimer: () => {},
+  startTimer: () => {
+    // noop
+  },
+  pauseTimer: () => {
+    // noop
+  },
+  resetTimer: () => {
+    // noop
+  },
 };
 
 const TimerContext = createContext<
@@ -168,21 +172,32 @@ export const TimerProvider = ({ children }: { children: ReactNode }) => {
     BLAZE: roundNum((phaseTime / BLAZE_TIME_MIL_SEC) * 100),
   };
 
+  const values = useMemo(
+    () => ({
+      state,
+      startTimer,
+      resetTimer,
+      pauseTimer,
+      phase,
+      total,
+      totalInSeconds,
+      nextPhaseTime,
+      progress,
+    }),
+    [
+      state,
+      startTimer,
+      resetTimer,
+      pauseTimer,
+      phase,
+      total,
+      totalInSeconds,
+      nextPhaseTime,
+      progress,
+    ],
+  );
+
   return (
-    <TimerContext.Provider
-      value={{
-        state,
-        startTimer,
-        resetTimer,
-        pauseTimer,
-        phase,
-        total,
-        totalInSeconds,
-        nextPhaseTime,
-        progress,
-      }}
-    >
-      {children}
-    </TimerContext.Provider>
+    <TimerContext.Provider value={values}>{children}</TimerContext.Provider>
   );
 };

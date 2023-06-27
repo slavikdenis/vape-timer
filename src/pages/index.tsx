@@ -11,7 +11,6 @@ function App() {
     if (colorMode === 'light') {
       toggleColorMode();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [colorMode]);
 
   useEffect(() => {
@@ -22,9 +21,9 @@ function App() {
     ) {
       const wb = window.workbox;
       // add event listeners to handle PWA lifecycle events
-      wb.addEventListener('installed', (event) => {
-        console.log(`Event ${event.type} is triggered.`);
-        console.log(event);
+      wb.addEventListener('installed', (_event) => {
+        // console.log(`Event ${event.type} is triggered.`);
+        // console.log(event);
       });
 
       wb.addEventListener('waiting', () => {
@@ -44,20 +43,20 @@ function App() {
           // Send a message to the waiting service worker, instructing it to activate.
           wb.messageSkipWaiting();
         } else {
-          console.log(
-            'User rejected to update SW, keeping the old version. New version will be automatically loaded when the app is opened next time.',
-          );
+          // console.log(
+          //   'User rejected to update SW, keeping the old version. New version will be automatically loaded when the app is opened next time.',
+          // );
         }
       });
 
-      wb.addEventListener('controlling', (event) => {
-        console.log(`Event ${event.type} is triggered.`);
-        console.log(event);
+      wb.addEventListener('controlling', (_event) => {
+        // console.log(`Event ${event.type} is triggered.`);
+        // console.log(event);
       });
 
-      wb.addEventListener('activated', (event) => {
-        console.log(`Event ${event.type} is triggered.`);
-        console.log(event);
+      wb.addEventListener('activated', (_event) => {
+        // console.log(`Event ${event.type} is triggered.`);
+        // console.log(event);
       });
 
       // never forget to call register as automatic registration is turned off in next.config.js

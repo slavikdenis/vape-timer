@@ -26,6 +26,7 @@ import {
   useScreenWakeLock,
   useVibrate,
 } from '../../utils/hooks';
+import { useDocumentVisibility } from '../../utils/hooks/useDocumentVisibility';
 
 import { useSettingsContext } from '../../context/settings';
 import { useTimerContext } from '../../context/timer';
@@ -46,7 +47,10 @@ const Timer = () => {
   const { vibrate } = useVibrate();
 
   // Screen Wake Lock API
-  const { lock, release } = useScreenWakeLock();
+  const { lock, release, isLocked } = useScreenWakeLock();
+
+  // Document visibility
+  const isDocumentVisible = useDocumentVisibility();
 
   // Theme
   const { colors } = useTheme();
@@ -93,8 +97,6 @@ const Timer = () => {
       duration: 3000,
       isClosable: true,
     });
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Effects
@@ -103,22 +105,17 @@ const Timer = () => {
     if (phase === 'BLAZE' && vibrations) {
       vibrate(VIBRATE_PATTERNS.PHASE_CHANGE);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [phase, vibrations]);
 
   useEffect(() => {
     // Lock screen, when timer is running
-    if (isRunning && screenWakeLock) {
+    // Release lock when timer is not running
+    if (isDocumentVisible && isRunning && screenWakeLock && !isLocked) {
       lock();
-    } else {
+    } else if (isDocumentVisible && !isRunning && screenWakeLock) {
       release();
     }
-
-    return () => {
-      release();
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isRunning, screenWakeLock]);
+  }, [isRunning, didTimerStarted, isLocked, screenWakeLock, isDocumentVisible]);
 
   useEffect(() => {
     if (isRunning) {
@@ -141,7 +138,6 @@ const Timer = () => {
     if (isAutoTimerPast && autoStopTimer) {
       handleAutoTimerAction();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAutoTimerPast]);
 
   return (

@@ -51,10 +51,12 @@ const initialSettingsContext: SettingsContextState &
   autoStopTimer: false,
   screenWakeLock: true,
   vibrations: true,
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  setSetting: () => {},
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  setDefaultTimers: () => {},
+  setSetting: () => {
+    // noop
+  },
+  setDefaultTimers: () => {
+    // noop
+  },
 };
 
 const SettingsContext = createContext<
@@ -140,19 +142,21 @@ export const SettingsProvider = ({ children }: { children: ReactNode }) => {
     if (waveTime > state.autoStopTime) {
       setSetting('autoStopTime', waveTime);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [waveTime]);
 
+  const values = useMemo(
+    () => ({
+      ...state,
+      waveTime,
+      areTimerSettingsDefault,
+      setSetting,
+      setDefaultTimers,
+    }),
+    [state, waveTime, areTimerSettingsDefault, setSetting, setDefaultTimers],
+  );
+
   return (
-    <SettingsContext.Provider
-      value={{
-        ...state,
-        waveTime,
-        areTimerSettingsDefault,
-        setSetting,
-        setDefaultTimers,
-      }}
-    >
+    <SettingsContext.Provider value={values}>
       {children}
     </SettingsContext.Provider>
   );
