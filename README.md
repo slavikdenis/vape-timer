@@ -4,7 +4,7 @@ A minimalistic offline-first timer [Progressive web app](https://developer.mozil
 
 ## Showcase
 
-![Showcase GIF](https://github.com/slavikdenis/vape-timer/blob/main/demo/showcase.gif?raw=true)
+[Showcase GIF](demo/showcase.gif)
 
 ## Features
 
