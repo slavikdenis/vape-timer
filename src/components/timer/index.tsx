@@ -26,6 +26,7 @@ import {
   useScreenWakeLock,
   useVibrate,
 } from '../../utils/hooks';
+import { useDocumentVisibility } from '../../utils/hooks/useDocumentVisibility';
 
 import { useSettingsContext } from '../../context/settings';
 import { useTimerContext } from '../../context/timer';
@@ -47,6 +48,9 @@ const Timer = () => {
 
   // Screen Wake Lock API
   const { lock, release, isLocked } = useScreenWakeLock();
+
+  // Document visibility
+  const isDocumentVisible = useDocumentVisibility();
 
   // Theme
   const { colors } = useTheme();
@@ -105,20 +109,13 @@ const Timer = () => {
 
   useEffect(() => {
     // Lock screen, when timer is running
-    // Release lock when timer is not running and is locked
-    if (isRunning && screenWakeLock && !isLocked) {
+    // Release lock when timer is not running
+    if (isDocumentVisible && isRunning && screenWakeLock && !isLocked) {
       lock();
-    } else if (!isRunning && screenWakeLock && isLocked && didTimerStarted) {
+    } else if (isDocumentVisible && !isRunning && screenWakeLock) {
       release();
     }
-
-    return () => {
-      if (isLocked) {
-        release();
-      }
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isRunning, didTimerStarted, isLocked, screenWakeLock]);
+  }, [isRunning, didTimerStarted, isLocked, screenWakeLock, isDocumentVisible]);
 
   useEffect(() => {
     if (isRunning) {

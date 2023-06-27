@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { useDocumentVisibility } from './hooks/useDocumentVisibility';
 
 const noop = () => {
   // noop
@@ -34,7 +35,9 @@ export function useVibrate() {
   };
 }
 
+// NOTE: If your screen will become not visible, you have to re-lock the wake lock.
 export function useScreenWakeLock() {
+  const isDocumentVisible = useDocumentVisibility();
   const wakeLock = useRef<WakeLockSentinel | null>(null);
   const [isLocked, setIsLocked] = useState(false);
   const [isSupported, setIsSupported] = useState(false);
@@ -43,31 +46,47 @@ export function useScreenWakeLock() {
     if (!isSupported) {
       noop();
     } else {
+      // Release previous wake lock
+      await release();
+
+      // Do nothing is the document is not visible
+      if (!isDocumentVisible) {
+        // eslint-disable-next-line no-console
+        console.warn('Not locking screen because document is not visible');
+        return;
+      }
+
       try {
+        // Requesting wake lock
         wakeLock.current = await navigator.wakeLock.request('screen');
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
+        // Releasing wake lock
         wakeLock.current.onrelease = function () {
           setIsLocked(false);
         };
-        wakeLock.current?.addEventListener('release', () => {
+        wakeLock.current.addEventListener('release', () => {
           setIsLocked(false);
         });
       } catch (error) {
+        // eslint-disable-next-line no-console
         console.error(error);
       }
       setIsLocked(true);
     }
-  }, [isSupported]);
+  }, [isSupported, isDocumentVisible]);
 
-  const release = useCallback(() => {
+  const release = useCallback(async () => {
     if (!isSupported) {
       noop();
     } else {
       // Releasing wave lock
       if (wakeLock.current) {
-        wakeLock.current.release();
-        wakeLock.current = null;
+        try {
+          await wakeLock.current.release();
+          wakeLock.current = null;
+        } catch (error) {
+          // eslint-disable-next-line no-console
+          console.error(error);
+        }
       }
       setIsLocked(false);
     }
@@ -76,22 +95,6 @@ export function useScreenWakeLock() {
   useEffect(() => {
     // Check if 'Screen Wake Lock API is supported
     setIsSupported('wakeLock' in navigator);
-  }, []);
-
-  // Re-lock screen after visibility change
-  useEffect(() => {
-    const handleVisibilityChange = () => {
-      if (wakeLock.current !== null && document.visibilityState === 'visible') {
-        lock();
-      }
-    };
-
-    document.addEventListener('visibilitychange', handleVisibilityChange);
-
-    return () => {
-      document.removeEventListener('visibilitychange', handleVisibilityChange);
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return {
