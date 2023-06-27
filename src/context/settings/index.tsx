@@ -142,7 +142,7 @@ export const SettingsProvider = ({ children }: { children: ReactNode }) => {
     if (waveTime > state.autoStopTime) {
       setSetting('autoStopTime', waveTime);
     }
-  }, [waveTime]);
+  }, [waveTime, state.autoStopTime]);
 
   const values = useMemo(
     () => ({

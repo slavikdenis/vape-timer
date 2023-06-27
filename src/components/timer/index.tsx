@@ -138,7 +138,7 @@ const Timer = () => {
     if (isAutoTimerPast && autoStopTimer) {
       handleAutoTimerAction();
     }
-  }, [isAutoTimerPast]);
+  }, [isAutoTimerPast, autoStopTimer]);
 
   return (
     <>

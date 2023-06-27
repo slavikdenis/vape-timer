@@ -167,13 +167,14 @@ export const TimerProvider = ({ children }: { children: ReactNode }) => {
   const totalInSeconds = time / 1000;
   const total = getDurationFromSeconds(totalInSeconds);
   const nextPhaseTime = getDurationFromSeconds(phaseTime / 1000);
-  const progress: Record<TimerPhase, number> = {
-    HEATING: roundNum((phaseTime / HEATING_TIME_MIL_SEC) * 100),
-    BLAZE: roundNum((phaseTime / BLAZE_TIME_MIL_SEC) * 100),
-  };
 
-  const values = useMemo(
-    () => ({
+  const values = useMemo(() => {
+    const progress: Record<TimerPhase, number> = {
+      HEATING: roundNum((phaseTime / HEATING_TIME_MIL_SEC) * 100),
+      BLAZE: roundNum((phaseTime / BLAZE_TIME_MIL_SEC) * 100),
+    };
+
+    return {
       state,
       startTimer,
       resetTimer,
@@ -183,19 +184,20 @@ export const TimerProvider = ({ children }: { children: ReactNode }) => {
       totalInSeconds,
       nextPhaseTime,
       progress,
-    }),
-    [
-      state,
-      startTimer,
-      resetTimer,
-      pauseTimer,
-      phase,
-      total,
-      totalInSeconds,
-      nextPhaseTime,
-      progress,
-    ],
-  );
+    };
+  }, [
+    state,
+    startTimer,
+    resetTimer,
+    pauseTimer,
+    phase,
+    total,
+    totalInSeconds,
+    nextPhaseTime,
+    phaseTime,
+    BLAZE_TIME_MIL_SEC,
+    HEATING_TIME_MIL_SEC,
+  ]);
 
   return (
     <TimerContext.Provider value={values}>{children}</TimerContext.Provider>
