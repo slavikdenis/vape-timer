@@ -1,23 +1,17 @@
-# Vape Timer
+# Vape Timer 🍀
 
-# Roadmap
+A minimalistic offline-first timer [Progressive web app](https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps) for your vaping sessions.
 
-- [x] initialize with NextJS
-- [x] make app as PWA
-- [x] add timer functions with START/PAUSE/RESET actions
-- [x] add circle countdown timer
-- [x] show data about session
-- [x] add Vibration API
-- [x] add Screen Wake Lock API
-- [x] add settings with options to configure timer and APIs used (time lengths, vibrate on/off, screen lock on/off)
-- [x] add functionality to timers to be preserved running when tab is inactive
-- [x] add unit tests
-- [x] add app e2e tests
-- [x] add settings e2e tests
-- [ ] add gif to README of functions
-- [ ] ? add page with motivation/description
-- [ ] add animated background
-- [x] add lazy loading of components
-- [ ] add analytics
-- [x] add auto stop function 
-- [x] add prompt when leaving app while timer is running
+## Showcase
+
+![Showcase GIF](https://github.com/slavikdenis/vape-timer/blob/main/demo/showcase.gif?raw=true)
+
+## Features
+
+- Offline first
+- Installable
+- Dark mode
+- Customizable
+- Auto Stop timer
+- Screen Wake Lock
+- Vibration
