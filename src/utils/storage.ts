@@ -31,7 +31,7 @@ function get<T>(
   if (shouldParse) {
     return stringValue === null ? null : (JSON.parse(stringValue) as T);
   } else {
-    return stringValue === null ? null : stringValue;
+    return stringValue ?? null;
   }
 }
 
