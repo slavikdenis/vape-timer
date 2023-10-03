@@ -7,7 +7,7 @@ const createJestConfig = nextJest({
 
 /** @type {import('jest').Config} */
 const customJestConfig = {
-  setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
+  setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
   resetMocks: false,
   collectCoverageFrom: [
     'src/**/*.{js,jsx,ts,tsx}',

@@ -51,7 +51,9 @@ const StyledButton = styled.button<{
   text-align: center;
   text-transform: uppercase;
   font-weight: 700;
-  transition: box-shadow 300ms ease-in-out, color 300ms ease-in-out;
+  transition:
+    box-shadow 300ms ease-in-out,
+    color 300ms ease-in-out;
 
   ${(p) => p.minimal && minimalStyles}
 
