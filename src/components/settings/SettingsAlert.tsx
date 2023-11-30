@@ -31,6 +31,7 @@ const SettingsAlert = ({
       leastDestructiveRef={cancelRef}
       onClose={onClose}
       id={`settings-alert-${type}`}
+      portalProps={{ appendToParentPortal: false }}
     >
       <AlertDialogOverlay>
         <AlertDialogContent>
@@ -44,7 +45,12 @@ const SettingsAlert = ({
           </AlertDialogBody>
 
           <AlertDialogFooter>
-            <Button ref={cancelRef} onClick={onClose} aria-label="Cancel alert">
+            <Button
+              ref={cancelRef}
+              onClick={onClose}
+              aria-label="Cancel alert"
+              id="settings-alert-cancel-btn"
+            >
               Cancel
             </Button>
             <Button
@@ -52,6 +58,7 @@ const SettingsAlert = ({
               onClick={onConfirm}
               ml={3}
               aria-label="Reset the timer"
+              id="settings-alert-reset-btn"
             >
               Reset the timer
             </Button>

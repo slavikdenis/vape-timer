@@ -68,77 +68,80 @@ const SettingsDrawer = ({
   };
 
   return (
-    <Drawer
-      isOpen={isOpen}
-      onClose={onClose}
-      finalFocusRef={finalFocusRef}
-      placement="right"
-      size="sm"
-    >
-      <DrawerOverlay>
-        <DrawerContent>
-          <SettingsAlert
-            isOpen={isAlertShown}
-            onConfirm={handleAlertConfirm}
-            onClose={hideAlerts}
-            type={state === 'PAUSED' ? 'PAUSED' : 'RUNNING'}
-          />
+    <>
+      <Drawer
+        isOpen={isOpen}
+        onClose={onClose}
+        finalFocusRef={finalFocusRef}
+        placement="right"
+        size="sm"
+        portalProps={{ appendToParentPortal: false }}
+      >
+        <DrawerOverlay>
+          <DrawerContent>
+            <DrawerCloseButton
+              aria-label="Close settings"
+              css={css`
+                position: absolute;
+                right: 24px;
+                top: 18px;
+              `}
+              data-testid="settings-close-button"
+            />
 
-          <DrawerCloseButton
-            aria-label="Close settings"
-            css={css`
-              position: absolute;
-              right: 24px;
-              top: 18px;
-            `}
-            data-testid="settings-close-button"
-          />
+            <DrawerHeader borderBottomWidth="1px" data-testid="settings-title">
+              Settings
+            </DrawerHeader>
 
-          <DrawerHeader borderBottomWidth="1px" data-testid="settings-title">
-            Settings
-          </DrawerHeader>
+            <DrawerBody overflowX="hidden">
+              <Content isTimerActive={isTimerActive} showAlert={showAlert} />
+            </DrawerBody>
 
-          <DrawerBody overflowX="hidden">
-            <Content isTimerActive={isTimerActive} showAlert={showAlert} />
-          </DrawerBody>
+            {!areTimerSettingsDefault && (
+              <DrawerFooter flexDirection="column">
+                <Button
+                  minimal
+                  fullWidth
+                  onClick={handleTimersReset}
+                  aria-label="Reset timers"
+                  data-testid="reset-timers"
+                >
+                  Reset timers
+                </Button>
+              </DrawerFooter>
+            )}
 
-          {!areTimerSettingsDefault && (
-            <DrawerFooter flexDirection="column">
-              <Button
-                minimal
-                fullWidth
-                onClick={handleTimersReset}
-                aria-label="Reset timers"
-                data-testid="reset-timers"
-              >
-                Reset timers
-              </Button>
-            </DrawerFooter>
-          )}
+            <Divider marginY={2} />
 
-          <Divider marginY={2} />
-
-          <Box
-            width="100%"
-            paddingBottom={2}
-            paddingX={6}
-            display="flex"
-            flexDirection="row"
-            justifyContent="space-between"
-            alignItems="center"
-          >
-            <Text fontSize="xs">Version: {packageVersion}</Text>
-
-            <Link
-              href="https://github.com/slavikdenis/vape-timer"
-              target="_blank"
+            <Box
+              width="100%"
+              paddingBottom={2}
+              paddingX={6}
+              display="flex"
+              flexDirection="row"
+              justifyContent="space-between"
+              alignItems="center"
             >
-              <GithubIcon width={30} height={30} fill="#FFFFFF" />
-            </Link>
-          </Box>
-        </DrawerContent>
-      </DrawerOverlay>
-    </Drawer>
+              <Text fontSize="xs">Version: {packageVersion}</Text>
+
+              <Link
+                href="https://github.com/slavikdenis/vape-timer"
+                target="_blank"
+              >
+                <GithubIcon width={30} height={30} fill="#FFFFFF" />
+              </Link>
+            </Box>
+          </DrawerContent>
+        </DrawerOverlay>
+      </Drawer>
+
+      <SettingsAlert
+        isOpen={isAlertShown}
+        onConfirm={handleAlertConfirm}
+        onClose={hideAlerts}
+        type={state === 'PAUSED' ? 'PAUSED' : 'RUNNING'}
+      />
+    </>
   );
 };
 
