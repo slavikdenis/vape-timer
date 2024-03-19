@@ -1,2 +1,5 @@
-#!/bin/sh
-. "$(dirname "$0")/_/husky.sh"
+yarn test
+yarn type-check
+yarn prettier
+yarn test
+yarn lint
