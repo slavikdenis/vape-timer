@@ -26,10 +26,10 @@ jobs:
       # Install dependencies only when yarn.lock changes
       - name: Install dependencies
         if: steps.cache-yarn.outputs.cache-hit != 'true'
-        run: yarn install --frozen-lockfile
+        run: yarn install --immutable
       # Run Cypress
       - name: Run Cypress 🌲
-        uses: cypress-io/github-action@v5
+        uses: cypress-io/github-action@v6
         with:
           install: false
         env:
