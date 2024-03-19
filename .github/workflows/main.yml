@@ -46,7 +46,7 @@ jobs:
       # Install dependencies only when yarn.lock changes
       - name: Install dependencies
         if: steps.cache-yarn.outputs.cache-hit != 'true'
-        run: yarn install --immutable --immutable-cache
+        run: yarn install
       - name: Run prettier
         run: yarn prettier
       - name: Run type check
