@@ -10,7 +10,9 @@ jobs:
   e2e:
     # only runs this job on successful deploy
     if: github.event_name == 'deployment_status' && github.event.deployment_status.state == 'success'
+    # The type of runner that the job will run on
     runs-on: ubuntu-latest
+    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - name: Checkout 🛎
         uses: actions/checkout@v4
@@ -19,13 +21,10 @@ jobs:
         with:
           node-version: "20"
           cache: "yarn"
-      # Install dependencies only when yarn.lock changes
-      - name: Install dependencies
-        run: yarn install --immutable
       # Run Cypress
       - name: Run Cypress 🌲
         uses: cypress-io/github-action@v6
         with:
-          install: false
+          install-command: yarn install --immutable
         env:
           CYPRESS_BASE_URL: ${{ github.event.deployment_status.target_url }}
