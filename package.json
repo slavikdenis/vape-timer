@@ -17,6 +17,7 @@
     "version": "auto-changelog -p && git add CHANGELOG.md"
   },
   "dependencies": {
+    "@chakra-ui/form-control": "^2.2.0",
     "@chakra-ui/icons": "^2.1.1",
     "@chakra-ui/react": "^2.8.2",
     "@chakra-ui/theme-tools": "^2.1.2",
@@ -65,6 +66,9 @@
     "react-test-renderer": "^18.2.0",
     "typescript": "5.4.2"
   },
+  "resolutions": {
+    "eslint-plugin-react-hooks": "4.6.0"
+  },
   "license": "MIT",
   "husky": {
     "hooks": {
@@ -87,5 +91,6 @@
   },
   "engines": {
     "node": ">=16"
-  }
+  },
+  "packageManager": "yarn@4.1.1"
 }
