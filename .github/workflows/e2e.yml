@@ -10,27 +10,21 @@ jobs:
   e2e:
     # only runs this job on successful deploy
     if: github.event_name == 'deployment_status' && github.event.deployment_status.state == 'success'
+    # The type of runner that the job will run on
     runs-on: ubuntu-latest
+    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - name: Checkout 🛎
-        uses: actions/checkout@v3
-      # Cache node_modules
-      - name: Cache node_modules
-        id: cache-yarn
-        uses: actions/cache@v3
+        uses: actions/checkout@v4
+      - name: Setup Node.js & Yarn
+        uses: actions/setup-node@v4
         with:
-          path: node_modules
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-yarn-
-      # Install dependencies only when yarn.lock changes
-      - name: Install dependencies
-        if: steps.cache-yarn.outputs.cache-hit != 'true'
-        run: yarn install --frozen-lockfile
+          node-version: "20"
+          cache: "yarn"
       # Run Cypress
       - name: Run Cypress 🌲
-        uses: cypress-io/github-action@v5
+        uses: cypress-io/github-action@v6
         with:
-          install: false
+          install-command: yarn install --immutable
         env:
           CYPRESS_BASE_URL: ${{ github.event.deployment_status.target_url }}

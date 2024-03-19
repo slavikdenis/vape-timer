@@ -4,10 +4,10 @@
 /node_modules
 /.pnp
 .pnp.js
+.pnp.*
 
 # testing
 /coverage
-cypress/videos
 
 # next.js
 /.next/
@@ -46,3 +46,17 @@ yarn-error.log*
 
 # tsconfig
 tsconfig.tsbuildinfo
+
+### CypressIO ###
+cypress/results/*
+cypress/reports/*
+cypress/screenshots/*
+cypress/videos/*
+
+### yarn ###
+.yarn/*
+!.yarn/releases
+!.yarn/patches
+!.yarn/plugins
+!.yarn/sdks
+!.yarn/versions
