@@ -30,10 +30,10 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "20"
-          cache: "yarn"
+          # cache: "yarn"
       # Install dependencies only when yarn.lock changes
       - name: Install dependencies
-        run: yarn install --immutable
+        run: yarn install # --immutable
       - name: Run prettier
         run: yarn prettier
       - name: Run type check

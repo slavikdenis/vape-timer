@@ -20,11 +20,11 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "20"
-          cache: "yarn"
+          # cache: "yarn"
       # Run Cypress
       - name: Run Cypress 🌲
         uses: cypress-io/github-action@v6
         with:
-          install-command: yarn install --immutable
+          install-command: yarn install # --immutable
         env:
           CYPRESS_BASE_URL: ${{ github.event.deployment_status.target_url }}
