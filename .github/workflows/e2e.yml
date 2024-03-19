@@ -13,23 +13,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout 🛎
-        uses: actions/checkout@v3
-      - name: Get yarn cache directory path
-        id: yarn-cache-dir-path
-        run: echo "dir=$(yarn config get cacheFolder)" >> $GITHUB_OUTPUT
-      # Cache node_modules
-      - name: Cache node_modules
-        id: cache-yarn
-        uses: actions/cache@v3
+        uses: actions/checkout@v4
+      - name: Setup Node.js & Yarn
+        uses: actions/setup-node@v4
         with:
-          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-yarn-
+          node-version: "20"
+          cache: "yarn"
       # Install dependencies only when yarn.lock changes
       - name: Install dependencies
-        if: steps.cache-yarn.outputs.cache-hit != 'true'
-        run: yarn install
+        run: yarn install --immutable
       # Run Cypress
       - name: Run Cypress 🌲
         uses: cypress-io/github-action@v6
