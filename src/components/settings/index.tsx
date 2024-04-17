@@ -9,10 +9,10 @@ import {
   DrawerHeader,
   DrawerOverlay,
   DrawerProps,
-  Link,
   Text,
   useDisclosure,
 } from '@chakra-ui/react';
+import { Link } from '@chakra-ui/next-js';
 import { css } from '@emotion/react';
 import { memo, useRef } from 'react';
 import { useSettingsContext } from '../../context/settings';
