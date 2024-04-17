@@ -174,7 +174,7 @@ describe('Vape Timer', () => {
     settingsCloseBtn.click();
 
     // Refresh page
-    cy.reload();
+    cy.visit('/');
 
     // Check that the setting values persisted
     // Open settings
