@@ -1,4 +1,5 @@
 module.exports = {
+  root: true,
   parser: '@typescript-eslint/parser',
   env: {
     browser: true,
@@ -9,7 +10,6 @@ module.exports = {
     'import',
     '@typescript-eslint',
     'react',
-    'react-hooks',
     '@emotion',
     'prettier',
   ],
