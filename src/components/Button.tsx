@@ -90,22 +90,18 @@ const Button = ({
   minimal = false,
   fullWidth = false,
   children,
+  type = 'button',
   ...buttonProps
-}: ButtonProps) => {
-  return (
-    <StyledButton
-      variant={variant}
-      minimal={minimal}
-      fullWidth={fullWidth}
-      {...buttonProps}
-    >
-      {children}
-    </StyledButton>
-  );
-};
-
-Button.defaultProps = {
-  type: 'button',
-};
+}: ButtonProps) => (
+  <StyledButton
+    type={type}
+    variant={variant}
+    minimal={minimal}
+    fullWidth={fullWidth}
+    {...buttonProps}
+  >
+    {children}
+  </StyledButton>
+);
 
 export default memo(Button);
