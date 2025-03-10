@@ -1,3 +1,4 @@
+'use client';
 import {
   Box,
   Divider,
@@ -12,7 +13,7 @@ import {
   Text,
   useDisclosure,
 } from '@chakra-ui/react';
-import { Link } from '@chakra-ui/next-js';
+import Link from 'next/link';
 import { css } from '@emotion/react';
 import { memo, useRef } from 'react';
 import { useSettingsContext } from '../../context/settings';
