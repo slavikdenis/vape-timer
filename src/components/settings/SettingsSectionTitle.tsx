@@ -1,4 +1,4 @@
-import { FormLabel } from '@chakra-ui/form-control';
+import { FormLabel } from '@chakra-ui/react';
 import { memo } from 'react';
 
 const SettingsSectionTitle = ({ title }: { title: string }) => (
